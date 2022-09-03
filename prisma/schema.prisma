@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -105,7 +105,7 @@ model skill {
 }
 
 model state {
-  id         Int     @default(autoincrement()) @unique
+  id         Int     @unique @default(autoincrement())
   name       String? @db.VarChar(45)
   code       String? @db.VarChar(45)
   user_id    String  @db.VarChar(50)
@@ -133,7 +133,7 @@ model user {
   phone                                           String?        @db.VarChar(45)
   description                                     String?        @db.VarChar(1024)
   actualJob                                       String?        @db.VarChar(45)
-  active                                          Int?           @db.TinyInt
+  active                                          Boolean?       @db.Boolean
   status                                          String?        @db.VarChar(45)
   language_id                                     Int
   organization_id                                 Int
