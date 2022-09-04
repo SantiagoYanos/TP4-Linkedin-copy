@@ -1,12 +1,16 @@
-import app from "./app";
+import app from "../src/app.js";
 import https from "https";
 import fs from "fs";
+
+app.get("/", (req, res) => {
+  res.send("Index");
+});
 
 https
   .createServer(
     {
       key: fs.readFileSync("./src/certs/key.pem"),
-      cert: fs.readFileSync("./src/certs/cert.pem"),
+      cert: fs.readFileSync("./src/certs/certificate.pem"),
     },
     app
   )

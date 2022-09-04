@@ -19,13 +19,14 @@ model city {
 }
 
 model comment {
-  id         Int     @id
-  body       String? @db.VarChar(45)
-  createdAt  String? @db.VarChar(45)
+  id         Int      @id
+  body       String?  @db.VarChar(45)
+  createdAt  String?  @db.VarChar(45)
   post_id    Int
-  written_by String  @db.VarChar(45)
-  post       post    @relation(fields: [post_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "comment_ibfk_1")
-  user       user    @relation(fields: [written_by], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "comment_ibfk_2")
+  written_by String   @db.VarChar(45)
+  post       post     @relation(fields: [post_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "comment_ibfk_1")
+  user       user     @relation(fields: [written_by], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "comment_ibfk_2")
+  active     Boolean? @default(true) @db.Boolean
 
   @@index([post_id], map: "post_id_idx")
   @@index([written_by], map: "written_by_idx")
@@ -64,20 +65,26 @@ model language {
 }
 
 model organization {
-  id                                      Int     @id @default(autoincrement())
-  name                                    String? @db.VarChar(45)
-  website                                 String? @db.VarChar(45)
-  type                                    String? @db.VarChar(45)
-  dateOfFounding                          String? @db.VarChar(45)
-  createdAt                               String? @db.VarChar(45)
+  id                                      Int      @id @default(autoincrement())
+  name                                    String?  @db.VarChar(45)
+  website                                 String?  @db.VarChar(45)
+  type                                    Type?    @default(private)
+  dateOfFounding                          String?  @db.VarChar(45)
+  createdAt                               String?  @db.VarChar(45)
   field_id                                Int
-  founder_id                              String  @db.VarChar(45)
-  field                                   field   @relation(fields: [field_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "organization_ibfk_1")
-  user_organization_founder_idTouser      user    @relation("organization_founder_idTouser", fields: [founder_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "organization_ibfk_2")
-  user_organizationTouser_organization_id user[]  @relation("organizationTouser_organization_id")
+  founder_id                              String   @db.VarChar(45)
+  field                                   field    @relation(fields: [field_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "organization_ibfk_1")
+  user_organization_founder_idTouser      user     @relation("organization_founder_idTouser", fields: [founder_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "organization_ibfk_2")
+  user_organizationTouser_organization_id user[]   @relation("organizationTouser_organization_id")
+  active                                  Boolean? @default(true) @db.Boolean
 
   @@index([field_id], map: "fk_organization_field1_idx")
   @@index([founder_id], map: "founder_idx")
+}
+
+enum Type {
+  private
+  public
 }
 
 model post {
@@ -89,6 +96,7 @@ model post {
   author_id  String    @db.VarChar(45)
   user       user      @relation(fields: [author_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "post_ibfk_1")
   comment    comment[]
+  active     Boolean?  @default(true) @db.Boolean
 
   @@index([author_id], map: "author_idx")
 }
