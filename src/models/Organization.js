@@ -17,6 +17,8 @@ async function getOneOrganization(id) {
         id: id,
       },
     });
+
+    return organization;
   } catch (err) {
     console.log(err);
   }
