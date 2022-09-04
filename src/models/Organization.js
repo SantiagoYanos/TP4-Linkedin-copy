@@ -3,7 +3,7 @@ const prisma = PrismaClient();
 
 async function getAllOrganizations() {
   try {
-    const organizations = prisma.organizations.findmany();
+    const organizations = prisma.organization.findmany();
     return organizations;
   } catch (err) {
     console.log(err);
