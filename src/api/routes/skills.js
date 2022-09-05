@@ -4,7 +4,7 @@ import controller from "../../controllers/skills/index.js";
 const router = Router();
 
 router
-  .get("/", controller)
+  .get("/", controller.getAllSkills)
   .get("/:id", controller.getOneSkill)
   .post("/", controller.createSkill)
   .put("/", controller.updateSkill);
