@@ -1,4 +1,3 @@
-import Field from "../../models/Field";
 import service from "../../services/fields/index.js";
 
 const getAllFields = async (req, res) => {
