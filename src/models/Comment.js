@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 
 async function getPostComments(postId) {
   try {
-    const comments = prisma.comment.find({
+    const comments = prisma.comment.findMany({
       where: {
         post_id: postId,
       },

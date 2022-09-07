@@ -13,7 +13,7 @@ async function getAllLenguage() {
 
 async function getOneLenguage(id) {
   try {
-    const lenguage = prisma.lenguage.find({
+    const lenguage = prisma.lenguage.findOne({
       where: {
         id: id,
       },

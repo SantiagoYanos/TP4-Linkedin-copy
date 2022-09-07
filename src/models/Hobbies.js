@@ -13,7 +13,7 @@ async function getAllHobbies() {
 
 async function getOneHobby(id) {
   try {
-    const hobby = prisma.hobby.find({
+    const hobby = prisma.hobby.findOne({
       where: {
         id: id,
       },

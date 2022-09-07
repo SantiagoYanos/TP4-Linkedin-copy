@@ -13,7 +13,7 @@ async function getAllFields() {
 
 async function getOneField(id) {
   try {
-    const field = prisma.field.find({
+    const field = prisma.field.findOne({
       where: {
         id: id,
       },
