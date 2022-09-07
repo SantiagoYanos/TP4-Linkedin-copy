@@ -8,3 +8,5 @@ router
   .get("/:id", controller.getOneSkill)
   .post("/", controller.createSkill)
   .put("/", controller.updateSkill);
+
+export default router;

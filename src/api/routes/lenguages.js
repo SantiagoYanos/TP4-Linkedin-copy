@@ -8,3 +8,5 @@ router
   .get("/:id", controller.getOneLenguage)
   .post("/", controller.createLenguage)
   .put("/", controller.updateLenguage);
+
+export default router;

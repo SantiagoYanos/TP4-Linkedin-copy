@@ -8,3 +8,5 @@ router
   .get("/:id", controller.getOneState)
   .post("/", controller.createState)
   .put("/", controller.updateState);
+
+export default router;

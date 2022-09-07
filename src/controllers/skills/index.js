@@ -1,4 +1,4 @@
-import service from "../../services/skills.js";
+import service from "../../services/skills/index.js";
 
 const getAllSkills = async (req, res) => {
   const skills = await service.getAllSkills();

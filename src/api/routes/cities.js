@@ -8,3 +8,5 @@ router
   .get("/:id", controller.getOneCity)
   .post("/", controller.createCity)
   .put("/", controller.updateCity);
+
+export default router;

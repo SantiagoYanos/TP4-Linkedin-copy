@@ -8,3 +8,5 @@ router
   .get("/:id", controller.getOneCountry)
   .post("/", controller.createCountry)
   .put("/", controller.updateCountry);
+
+export default router;

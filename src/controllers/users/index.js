@@ -1,58 +1,69 @@
-import service from "../../services/users/index"
-import { avatarRegex, emailRegex, phoneRegex } from "../../utils/regex"
-import { uniqueID } from "../../utils/uniqueID"
+import service from "../../services/users/index.js";
+import { avatarRegex, emailRegex, phoneRegex } from "../../utils/regex.js";
+import { uniqueID } from "../../utils/uniqueID.js";
 
-export const getAllUsers = async (req, res) => {
-    const users = await service.getAllUsers()
-    res.status(200).json(users)
-}
+const getAllUsers = async (req, res) => {
+  const users = await service.getAllUsers();
+  res.status(200).json(users);
+};
 
-export const getOneUser = async (req, res) => {
-    const user = await service.getOneUser(req.params.name)
-    res.status(200).json(user)
-}
+const getOneUser = async (req, res) => {
+  const user = await service.getOneUser(req.params.name);
+  res.status(200).json(user);
+};
 
-export const createUser = async (req, res) => {
-    if(!req.body.email) {
-        return res.status(400).json({msg: "Falta el mail wachin"})
-    }
-    
-    const newUser = {
-        ...req.body,
-        id: uniqueID(req.body.email)
-    }
+const createUser = async (req, res) => {
+  if (!req.body.email) {
+    return res.status(400).json({ msg: "Falta el mail wachin" });
+  }
 
-    if(!newUser.name || !newUser.email || !newUser.password) {
-        return res.status(400).json({
-            message: "Please provide all required fields"
-        })
-    }
+  const newUser = {
+    ...req.body,
+    id: uniqueID(req.body.email),
+  };
 
-    if(newUser.phone) {
-        !phoneRegex.test(newUser.phone) ? res.status(400).json({ message: "Please provide a valid phone number" }) : null
-    }
+  if (!newUser.name || !newUser.email || !newUser.password) {
+    return res.status(400).json({
+      message: "Please provide all required fields",
+    });
+  }
 
-    if(!emailRegex.test(newUser.email) || !avatarRegex.test(newUser.avatar)) {
-        return res.status(400).json({
-            message: "Please provide valid data"
-        })
-    }
+  if (newUser.phone) {
+    !phoneRegex.test(newUser.phone)
+      ? res.status(400).json({ message: "Please provide a valid phone number" })
+      : null;
+  }
 
-    const user = await service.createUser(req.body)
-    res.status(200).json(user)
-}
+  if (!emailRegex.test(newUser.email) || !avatarRegex.test(newUser.avatar)) {
+    return res.status(400).json({
+      message: "Please provide valid data",
+    });
+  }
 
-export const updateUser = async (req, res) => {
-    const user = await service.updateUser(req.params.id, req.body)
-    res.status(200).json(user)
-}
+  const user = await service.createUser(req.body);
+  res.status(200).json(user);
+};
 
-export const deactiveUser = async (req, res) => {
-    const user = await service.deactiveUser(req.params.id)
-    res.status(200).json(user)
-}
+const updateUser = async (req, res) => {
+  const user = await service.updateUser(req.params.id, req.body);
+  res.status(200).json(user);
+};
 
-export const activeUser = async (req, res) => {
-    const user = await service.activeUser(req.params.id)
-    res.status(200).json(user)
-}
+const deactiveUser = async (req, res) => {
+  const user = await service.deactiveUser(req.params.id);
+  res.status(200).json(user);
+};
+
+const activeUser = async (req, res) => {
+  const user = await service.activeUser(req.params.id);
+  res.status(200).json(user);
+};
+
+export default {
+  getAllUsers,
+  getOneUser,
+  createUser,
+  updateUser,
+  activeUser,
+  deactiveUser,
+};

@@ -8,3 +8,5 @@ router
   .put("/", controller.updateComment)
   .patch("/", controller.activeComment)
   .patch("/", controller.deactiveComment);
+
+export default router;

@@ -1,31 +1,40 @@
-import User from '../../models/User'
+import User from "../../models/User.js";
 
-export const getAllUsers = () => {
-    const users = User.getAllUsers()
-    return users
-}
+const getAllUsers = () => {
+  const users = User.getAllUsers();
+  return users;
+};
 
-export const getOneUser = (name) => {
-    const user = User.getOneUser(name)
-    return user
-}
+const getOneUser = (name) => {
+  const user = User.getOneUser(name);
+  return user;
+};
 
-export const createUser = (newUser) => {
-    const user = User.createUser(newUser)
-    return user
-}
+const createUser = (newUser) => {
+  const user = User.createUser(newUser);
+  return user;
+};
 
-export const updateUser = (id, newUser) => {
-    const user = User.updateUser(id, newUser)
-    return user
-}
+const updateUser = (id, newUser) => {
+  const user = User.updateUser(id, newUser);
+  return user;
+};
 
-export const deactiveUser = (id) => {
-    const user = User.deactiveUser(id)
-    return user
-}
+const deactiveUser = (id) => {
+  const user = User.deactiveUser(id);
+  return user;
+};
 
-export const activeUser = (id) => {
-    const user = User.activeUser(id)
-    return user
-}
+const activeUser = (id) => {
+  const user = User.activeUser(id);
+  return user;
+};
+
+export default {
+  getAllUsers,
+  getOneUser,
+  createUser,
+  updateUser,
+  activeUser,
+  deactiveUser,
+};

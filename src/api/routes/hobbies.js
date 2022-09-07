@@ -8,3 +8,5 @@ router
   .get("/:id", controller.getOneHobby)
   .post("/", controller.createHobby)
   .put("/", controller.updateHobby);
+
+export default router;

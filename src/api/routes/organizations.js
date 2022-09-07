@@ -9,3 +9,5 @@ router
   .put("/", controller.updateOrganization)
   .patch("/:id", controller.activeOrganization)
   .patch("/:id", controller.deactiveOrganization);
+
+export default router;

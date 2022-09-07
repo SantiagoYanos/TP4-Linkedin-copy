@@ -9,3 +9,5 @@ router
   .put("/", controller.updatePost)
   .patch("/", controller.activePost)
   .patch("/", controller.deactivePost);
+
+export default router;

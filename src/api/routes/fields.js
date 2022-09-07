@@ -8,3 +8,5 @@ router
   .get("/:id", controller.getOneField)
   .post("/", controller.createField)
   .put("/", controller.updateField);
+
+export default router;

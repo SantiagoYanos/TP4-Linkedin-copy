@@ -1,4 +1,4 @@
-import service from "../../services/countries";
+import service from "../../services/countries/index.js";
 
 const getAllCountries = async (req, res) => {
   const countries = await service.getAllCountries();
