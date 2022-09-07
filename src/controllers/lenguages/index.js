@@ -15,7 +15,7 @@ const getAllLenguages = async (req, res) => {
 };
 
 const getOneLenguage = async (req, res) => {
-  const lenguage = await service.getOneLenguage(req.body.id);
+  const lenguage = await service.getOneLenguage(Number(req.params.id));
 
   if (lenguage) {
     res.status(200).json(lenguage);

@@ -43,12 +43,12 @@ const updateComment = async (req, res) => {
 };
 
 const deactiveComment = async (req, res) => {
-  const comment = await service.deactiveComment(req.params.id);
+  const comment = await service.deactiveComment(Number(req.params.id));
   res.status(200).json(comment);
 };
 
 const activeComment = async (req, res) => {
-  const comment = await service.activeComment(req.params.id);
+  const comment = await service.activeComment(Number(req.params.id));
   res.status(200).json(comment);
 };
 

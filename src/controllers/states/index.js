@@ -13,7 +13,7 @@ const getAllStates = async (req, res) => {
 };
 
 const getOneState = async (req, res) => {
-  const state = await service.getOneState(req.params.id);
+  const state = await service.getOneState(Number(req.params.id));
 
   if (state) {
     res.status(200).json(state);

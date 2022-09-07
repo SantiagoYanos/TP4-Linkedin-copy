@@ -12,7 +12,7 @@ async function getAllOrganizations() {
 
 async function getOneOrganization(id) {
   try {
-    const organization = prisma.organization.findOne({
+    const organization = prisma.organization.findUnique({
       where: {
         id: id,
       },

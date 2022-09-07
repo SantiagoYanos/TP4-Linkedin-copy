@@ -13,7 +13,7 @@ async function getAllSkills() {
 
 async function getOneSkill(id) {
   try {
-    const skill = prisma.skill.findOne({
+    const skill = prisma.skill.findUnique({
       where: {
         id: id,
       },

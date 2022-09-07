@@ -13,7 +13,7 @@ async function getAllCountries() {
 
 async function getOneCountry(id) {
   try {
-    const country = prisma.country.findOne({
+    const country = prisma.country.findUnique({
       where: {
         id: id,
       },

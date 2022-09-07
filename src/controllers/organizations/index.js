@@ -9,7 +9,7 @@ const getAllOrganizations = async (req, res) => {
 };
 
 const getOneOrganization = async (req, res) => {
-  const id = req.body.id;
+  const id = Number(req.params.id);
 
   if (id) {
     const organization = await service.getOneOrganization(id);
@@ -64,12 +64,14 @@ const updateOrganization = async (req, res) => {
 };
 
 const deactiveOrganization = async (req, res) => {
-  const organization = await service.deactiveOrganization(req.params.id);
+  const organization = await service.deactiveOrganization(
+    Number(req.params.id)
+  );
   res.status(200).json(organization);
 };
 
 const activeOrganization = async (req, res) => {
-  const organization = await service.activeOrganization(req.params.id);
+  const organization = await service.activeOrganization(Number(req.params.id));
   res.status(200).json(organization);
 };
 

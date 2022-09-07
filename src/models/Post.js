@@ -12,7 +12,7 @@ async function getAllPosts() {
 
 async function getOnePost(id) {
   try {
-    const post = prisma.post.findOne({
+    const post = prisma.post.findUnique({
       where: {
         id: id,
       },

@@ -13,7 +13,7 @@ const getAllSkills = async (req, res) => {
 };
 
 const getOneSkill = async (req, res) => {
-  const skill = await service.getOneSkill(req.params.id);
+  const skill = await service.getOneSkill(Number(req.params.id));
 
   if (skill) {
     res.status(200).json(skill);

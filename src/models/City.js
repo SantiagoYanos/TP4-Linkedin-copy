@@ -13,7 +13,7 @@ async function getAllCities() {
 
 async function getOneCity(id) {
   try {
-    const city = prisma.city.findOne({
+    const city = prisma.city.findUnique({
       where: {
         id: id,
       },

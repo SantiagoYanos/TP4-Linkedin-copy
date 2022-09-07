@@ -13,7 +13,7 @@ const getAllPosts = async (req, res) => {
 };
 
 const getOnePost = async (req, res) => {
-  const post = await service.getOnePost(req.body.id);
+  const post = await service.getOnePost(Number(req.params.id));
 
   if (post) {
     res.status(200).json(post);
@@ -59,12 +59,12 @@ const updatePost = async (req, res) => {
 };
 
 const deactivePost = async (req, res) => {
-  const post = await service.deactivePost(req.params.id);
+  const post = await service.deactivePost(Number(req.params.id));
   res.status(200).json(post);
 };
 
 const activePost = async (req, res) => {
-  const post = await service.activePost(req.params.id);
+  const post = await service.activePost(Number(req.params.id));
   res.status(200).json(post);
 };
 

@@ -7,7 +7,7 @@ async function getAllUsers() {
 }
 
 async function getOneUser(name) {
-  const user = await prisma.user.findOne({
+  const user = await prisma.user.findUnique({
     where: {
       name: name,
     },

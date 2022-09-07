@@ -15,7 +15,7 @@ const getAllHobbies = async (req, res) => {
 };
 
 const getOneHobby = async (req, res) => {
-  const hobby = await service.getOneHobby(req.body.id);
+  const hobby = await service.getOneHobby(Number(req.params.id));
 
   if (hobby) {
     res.status(200).json(hobby);

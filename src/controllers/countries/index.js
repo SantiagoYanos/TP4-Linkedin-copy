@@ -13,7 +13,7 @@ const getAllCountries = async (req, res) => {
 };
 
 const getOneCountry = async (req, res) => {
-  const country = await service.getOneCountry(req.params.id);
+  const country = await service.getOneCountry(Number(req.params.id));
 
   if (country) {
     res.status(200).json(country);

@@ -15,7 +15,7 @@ const getAllFields = async (req, res) => {
 };
 
 const getOneField = async (req, res) => {
-  const field = await service.getOneField(req.body.id);
+  const field = await service.getOneField(Number(req.params.id));
 
   if (field) {
     res.status(200).json(field);

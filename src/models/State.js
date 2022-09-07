@@ -13,7 +13,7 @@ async function getAllStates() {
 
 async function getOneState(id) {
   try {
-    const state = prisma.state.findOne({
+    const state = prisma.state.findUnique({
       where: {
         id: id,
       },

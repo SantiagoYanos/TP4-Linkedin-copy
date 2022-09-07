@@ -13,7 +13,7 @@ const getAllCities = async (req, res) => {
 };
 
 const getOneCity = async (req, res) => {
-  const city = await service.getOneCity(req.params.id);
+  const city = await service.getOneCity(Number(req.params.id));
 
   if (city) {
     res.status(200).json(city);
