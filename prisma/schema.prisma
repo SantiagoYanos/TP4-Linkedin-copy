@@ -8,7 +8,7 @@ datasource db {
 }
 
 model city {
-  id       Int     @id
+  id       Int     @id @default(autoincrement())
   name     String? @db.VarChar(45)
   code     String? @db.VarChar(45)
   state_id Int
@@ -19,7 +19,7 @@ model city {
 }
 
 model comment {
-  id         Int      @id
+  id         Int      @id @default(autoincrement())
   body       String?  @db.VarChar(45)
   createdAt  String?  @db.VarChar(45)
   post_id    Int
@@ -33,7 +33,7 @@ model comment {
 }
 
 model country {
-  id    Int     @id
+  id    Int     @id @default(autoincrement())
   name  String? @db.VarChar(45)
   code  String? @db.VarChar(45)
   state state[]
@@ -41,7 +41,7 @@ model country {
 }
 
 model field {
-  id           Int            @id
+  id           Int            @id @default(autoincrement())
   name         String?        @db.VarChar(45)
   type         String?        @db.VarChar(45)
   organization organization[]
@@ -49,7 +49,7 @@ model field {
 }
 
 model hobby {
-  id      Int     @id
+  id      Int     @id @default(autoincrement())
   name    String? @db.VarChar(45)
   user_id String  @db.VarChar(45)
   user    user    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "hobby_ibfk_1")
