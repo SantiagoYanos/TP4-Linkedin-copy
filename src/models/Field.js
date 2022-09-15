@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 
 async function getAllFields() {
   try {
-    const fields = prisma.field.findMany();
+    const fields = await prisma.field.findMany();
 
     return fields;
   } catch (err) {
@@ -13,7 +13,7 @@ async function getAllFields() {
 
 async function getOneField(id) {
   try {
-    const field = prisma.field.findUnique({
+    const field = await prisma.field.findUnique({
       where: {
         id: id,
       },
@@ -27,7 +27,7 @@ async function getOneField(id) {
 
 async function createField(data) {
   try {
-    const field = prisma.field.create({
+    const field = await prisma.field.create({
       data: data,
     });
 
@@ -39,7 +39,7 @@ async function createField(data) {
 
 async function updateField(id, data) {
   try {
-    const field = prisma.field.update({
+    const field = await prisma.field.update({
       where: {
         id: id,
       },

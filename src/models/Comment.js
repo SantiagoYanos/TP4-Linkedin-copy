@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 
 async function getPostComments(postId) {
   try {
-    const comments = prisma.comment.findMany({
+    const comments = await prisma.comment.findMany({
       where: {
         post_id: postId,
       },
@@ -17,7 +17,7 @@ async function getPostComments(postId) {
 
 async function createComment(data) {
   try {
-    const newComment = prisma.comment.create({
+    const newComment = await prisma.comment.create({
       data: data,
     });
 
@@ -29,7 +29,7 @@ async function createComment(data) {
 
 async function updateComment(id, data) {
   try {
-    const editedComment = prisma.comment.update({
+    const editedComment = await prisma.comment.update({
       where: {
         id: id,
       },

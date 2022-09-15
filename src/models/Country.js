@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 
 async function getAllCountries() {
   try {
-    const countries = prisma.country.findMany();
+    const countries = await prisma.country.findMany();
 
     return countries;
   } catch (err) {
@@ -13,7 +13,7 @@ async function getAllCountries() {
 
 async function getOneCountry(id) {
   try {
-    const country = prisma.country.findUnique({
+    const country = await prisma.country.findUnique({
       where: {
         id: id,
       },
@@ -27,7 +27,7 @@ async function getOneCountry(id) {
 
 async function createCountry(data) {
   try {
-    const country = prisma.country.create({
+    const country = await prisma.country.create({
       data: data,
     });
 
@@ -39,7 +39,7 @@ async function createCountry(data) {
 
 async function updateCountry(id, data) {
   try {
-    const country = prisma.country.update({
+    const country = await prisma.country.update({
       where: {
         id: id,
       },

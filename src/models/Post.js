@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 
 async function getAllPosts() {
   try {
-    const posts = prisma.post.findmany();
+    const posts = await prisma.post.findmany();
     return posts;
   } catch (err) {
     console.log(err);
@@ -12,7 +12,7 @@ async function getAllPosts() {
 
 async function getOnePost(id) {
   try {
-    const post = prisma.post.findUnique({
+    const post = await prisma.post.findUnique({
       where: {
         id: id,
       },
@@ -24,7 +24,7 @@ async function getOnePost(id) {
 
 async function createPost(data) {
   try {
-    const newPost = prisma.post.create({
+    const newPost = await prisma.post.create({
       data: data,
     });
 
@@ -36,7 +36,7 @@ async function createPost(data) {
 
 async function updatePost(id, data) {
   try {
-    const editedPost = prisma.post.update({
+    const editedPost = await prisma.post.update({
       where: {
         id: id,
       },

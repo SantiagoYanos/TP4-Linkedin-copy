@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 
 async function getAllSkills() {
   try {
-    const skills = prisma.skill.findMany();
+    const skills = await prisma.skill.findMany();
 
     return skills;
   } catch (err) {
@@ -13,7 +13,7 @@ async function getAllSkills() {
 
 async function getOneSkill(id) {
   try {
-    const skill = prisma.skill.findUnique({
+    const skill = await prisma.skill.findUnique({
       where: {
         id: id,
       },
@@ -27,7 +27,7 @@ async function getOneSkill(id) {
 
 async function createSkill(data) {
   try {
-    const skill = prisma.skill.create({
+    const skill = await prisma.skill.create({
       data: data,
     });
 
@@ -39,7 +39,7 @@ async function createSkill(data) {
 
 async function updateSkill(id, data) {
   try {
-    const skill = prisma.skill.update({
+    const skill = await prisma.skill.update({
       where: {
         id: id,
       },

@@ -3,7 +3,7 @@ import controller from "../../controllers/comments/index.js";
 const router = Router();
 
 router
-  .get("/", controller.getPostComments)
+  .get("/:post_id", controller.getPostComments)
   .post("/", controller.createComment)
   .put("/", controller.updateComment)
   .patch("/", controller.activeComment)

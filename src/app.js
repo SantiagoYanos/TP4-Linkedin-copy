@@ -1,25 +1,61 @@
-import express from 'express'
-import dotenv from 'dotenv'
-import session from 'express-session'
-import passport from 'passport'
-import morgan from "morgan"
-import cors from "cors"
+import express from "express";
+import dotenv from "dotenv";
+import session from "express-session";
+import passport from "passport";
+import morgan from "morgan";
+import cors from "cors";
 
-const app = express()
+const app = express();
 
 // Inicializaciones
-dotenv.config()
-app.use(morgan('dev'))
-app.use(cors())
-app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
+dotenv.config();
+app.use(morgan("dev"));
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-app.use(session({
+app.use(
+  session({
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: false
-}))
-app.use(passport.initialize())
-app.use(passport.session())
+    saveUninitialized: false,
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 
-export default app
+//------------------------------------------------------------
+
+//Rutas
+
+import cityRoute from "./api/routes/cities.js"; //Ciudades
+import commentRoute from "./api/routes/comments.js"; //Comentarios
+import countryRoute from "./api/routes/countries.js"; //Paises
+import fieldRoute from "./api/routes/fields.js"; //Áreas
+import hobbyRoute from "./api/routes/hobbies.js"; //Pasatiempos
+import languageRoute from "./api/routes/languages.js"; //Lenguajes
+import organizationRoute from "./api/routes/organizations.js"; //Organizaciones
+import postRoute from "./api/routes/posts.js"; //Posteos
+import skillRoute from "./api/routes/skills.js"; //Habilidades
+import stateRoute from "./api/routes/states.js"; //Estados/Provincias
+import userRoute from "./api/routes/users.js"; //Usuarios
+
+app.use("/api/cities", cityRoute); //Ruta Ciudades
+app.use("/api/comments", commentRoute); //Ruta Comentarios
+app.use("/api/countries", countryRoute); //Ruta Paises
+app.use("/api/fields", fieldRoute); //Ruta Areas
+app.use("/api/hobbies", hobbyRoute); //Ruta Pasatiempos
+app.use("/api/languages", languageRoute); //Ruta Lenguajes
+app.use("/api/organizations", organizationRoute); //Ruta Organizaciones
+app.use("/api/posts", postRoute); //Ruta Posteos
+app.use("/api/skills", skillRoute); //Ruta Habilidades
+app.use("/api/states", stateRoute); //Ruta Estados/Provincias
+app.use("/api/users", userRoute); //Ruta Usuarios
+
+//------------------------------------------------------------
+
+app.get("/", (req, res) => {
+  res.send("Index");
+});
+
+export default app;

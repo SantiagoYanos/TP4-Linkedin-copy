@@ -1,8 +1,8 @@
 import service from "../../services/comments/index.js";
 
 const getPostComments = async (req, res) => {
-  if (req.body.post_id) {
-    const comments = service.getPostComments(req.body.post_id);
+  if (req.params.post_id) {
+    const comments = service.getPostComments(Number(req.params.post_id));
 
     res.status(200).json(comments);
   } else {

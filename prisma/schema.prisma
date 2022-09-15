@@ -58,10 +58,15 @@ model hobby {
 }
 
 model language {
-  id    Int     @id @default(autoincrement())
-  name  String? @db.VarChar(45)
-  level String? @db.VarChar(45)
-  user  user[]
+  id   Int     @id @default(autoincrement())
+  name String? @unique @db.VarChar(45)
+  user user[]
+}
+
+model lenguage_x_user {
+  id_user     String  @id
+  id_lenguage Int
+  level       String? @db.VarChar(45)
 }
 
 model organization {

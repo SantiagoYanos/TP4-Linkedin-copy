@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 
 async function getAllOrganizations() {
   try {
-    const organizations = prisma.organization.findmany();
+    const organizations = await prisma.organization.findmany();
     return organizations;
   } catch (err) {
     console.log(err);
@@ -12,7 +12,7 @@ async function getAllOrganizations() {
 
 async function getOneOrganization(id) {
   try {
-    const organization = prisma.organization.findUnique({
+    const organization = await prisma.organization.findUnique({
       where: {
         id: id,
       },
@@ -26,7 +26,7 @@ async function getOneOrganization(id) {
 
 async function createOrganization(data) {
   try {
-    const newOrganization = prisma.organization.create({
+    const newOrganization = await prisma.organization.create({
       data: data,
     });
 
@@ -38,7 +38,7 @@ async function createOrganization(data) {
 
 async function updateOrganization(id, data) {
   try {
-    const editedOrganization = prisma.organization.update({
+    const editedOrganization = await prisma.organization.update({
       where: {
         id: id,
       },

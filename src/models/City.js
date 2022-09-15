@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 
 async function getAllCities() {
   try {
-    const cities = prisma.city.findMany();
+    const cities = await prisma.city.findMany();
 
     return cities;
   } catch (err) {
@@ -13,7 +13,7 @@ async function getAllCities() {
 
 async function getOneCity(id) {
   try {
-    const city = prisma.city.findUnique({
+    const city = await prisma.city.findUnique({
       where: {
         id: id,
       },
@@ -27,7 +27,7 @@ async function getOneCity(id) {
 
 async function createCity(data) {
   try {
-    const city = prisma.city.create({
+    const city = await prisma.city.create({
       data: data,
     });
 
@@ -39,7 +39,7 @@ async function createCity(data) {
 
 async function updateCity(id, data) {
   try {
-    const city = prisma.city.update({
+    const city = await prisma.city.update({
       where: {
         id: id,
       },

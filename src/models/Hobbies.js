@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 
 async function getAllHobbies() {
   try {
-    const hobbies = prisma.hobby.findMany();
+    const hobbies = await prisma.hobby.findMany();
 
     return hobbies;
   } catch (err) {
@@ -13,7 +13,7 @@ async function getAllHobbies() {
 
 async function getOneHobby(id) {
   try {
-    const hobby = prisma.hobby.findUnique({
+    const hobby = await prisma.hobby.findUnique({
       where: {
         id: id,
       },
@@ -27,7 +27,7 @@ async function getOneHobby(id) {
 
 async function createHobby(data) {
   try {
-    const hobby = prisma.hobby.create({
+    const hobby = await prisma.hobby.create({
       data: data,
     });
 
@@ -39,7 +39,7 @@ async function createHobby(data) {
 
 async function updateHobby(id, data) {
   try {
-    const hobby = prisma.hobby.update({
+    const hobby = await prisma.hobby.update({
       where: {
         id: id,
       },

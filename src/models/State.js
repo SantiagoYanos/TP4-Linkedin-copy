@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 
 async function getAllStates() {
   try {
-    const states = prisma.state.findMany();
+    const states = await prisma.state.findMany();
 
     return states;
   } catch (err) {
@@ -13,7 +13,7 @@ async function getAllStates() {
 
 async function getOneState(id) {
   try {
-    const state = prisma.state.findUnique({
+    const state = await prisma.state.findUnique({
       where: {
         id: id,
       },
@@ -27,7 +27,7 @@ async function getOneState(id) {
 
 async function createState(data) {
   try {
-    const state = prisma.state.create({
+    const state = await prisma.state.create({
       data: data,
     });
 
@@ -39,7 +39,7 @@ async function createState(data) {
 
 async function updateState(id, data) {
   try {
-    const state = prisma.state.update({
+    const state = await prisma.state.update({
       where: {
         id: id,
       },

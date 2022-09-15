@@ -25,12 +25,13 @@ const getOneState = async (req, res) => {
 };
 
 const createState = async (req, res) => {
-  if (!req.body.user_id || !req.body.country_id) {
+  if (!req.body.country_id || !req.body.name) {
     res.status(400).json({ message: "Please provide all required fields" });
   }
 
   const newState = {
     ...req.body,
+    country_id: Number(req.body.country_id),
   };
 
   const createdState = await service.createState(newState);
