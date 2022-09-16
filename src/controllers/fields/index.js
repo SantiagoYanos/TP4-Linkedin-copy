@@ -4,59 +4,79 @@ const getAllFields = async (req, res) => {
   const fields = await service.getAllFields();
 
   if (fields) {
-    res.status(200).json(fields);
+    return res
+      .status(200)
+      .json({ message: "Fields obtained successfully!", data: fields });
   } else {
-    res
+    return res
       .status(400)
-      .json({ message: "Error: Al obtener Fields de la base de datos" });
+      .json({ message: "Error: Obtaining Fields from the database" });
   }
 
-  return field;
+  return fields;
 };
 
 const getOneField = async (req, res) => {
   const field = await service.getOneField(Number(req.params.id));
 
   if (field) {
-    res.status(200).json(field);
+    return res
+      .status(200)
+      .json({ message: "Field obtained successfully!", data: field });
   } else {
-    res
+    return res
       .status(400)
-      .json({ message: "Error: Al obtener la Field de la base de datos" });
+      .json({ message: "Error: Obtaining a Field from the database" });
   }
 
   return field;
 };
 
 const createField = async (req, res) => {
+  const { name, type_id } = req.body;
+
   if (!req.body.name) {
-    res.status(400).json({ message: "Please provide all required fields" });
+    return res
+      .status(400)
+      .json({ message: "Please provide all required fields" });
   } else {
     const newField = {
-      ...req.body,
+      name,
+      type_id,
     };
 
     const field = await service.createField(newField);
 
     if (field) {
-      res.status(200).json(field);
+      return res
+        .status(200)
+        .json({ message: "Field created successfully!", data: field });
     } else {
-      res
+      return res
         .status(400)
-        .json({ message: "Error: Al crear una Field en la base de datos" });
+        .json({ message: "Error: Creating a Field in the database" });
     }
   }
 };
 
 const updateField = async (req, res) => {
-  const field = await service.updateField(req.body.id, req.body);
+  const { name, type_id } = req.body;
+
+  const newData = {
+    name,
+    type_id,
+  };
+
+  const field = await service.updateField(req.body.id, newData);
 
   if (field) {
-    res.status(200).json(field);
+    return res
+      .status(200)
+      .json({ message: "Field edited successfully!", data: field });
   } else {
-    res
+    return res
       .status(400)
-      .json({ message: "Error: Al editar una Field en la base de datos" });
+      .json({ message: "Error: Editing a Field in the database" });
   }
 };
 

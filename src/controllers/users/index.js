@@ -4,59 +4,212 @@ import { uniqueID } from "../../utils/uniqueID.js";
 
 const getAllUsers = async (req, res) => {
   const users = await service.getAllUsers();
-  res.status(200).json(users);
+
+  if (users) {
+    return res
+      .status(200)
+      .json({ message: "Users obtained successfully!", data: users });
+  } else {
+    return res
+      .status(400)
+      .json({ message: "Error: Obtaining Users from the database" });
+  }
 };
 
 const getOneUser = async (req, res) => {
   const user = await service.getOneUser(req.params.name);
-  res.status(200).json(user);
+
+  if (user) {
+    return res
+      .status(200)
+      .json({ message: "User obtained successfully!", data: user });
+  } else {
+    return res
+      .status(400)
+      .json({ message: "Error: Obtaining a User from the database" });
+  }
 };
 
 const createUser = async (req, res) => {
+  const {
+    name,
+    surname,
+    email,
+    password,
+    avatar,
+    birthdate,
+    pronouns,
+    nationality,
+    residence,
+    phone,
+    description,
+    actualJob,
+    active,
+    status,
+    language_id,
+    organization_id,
+    country_id,
+    state_id,
+    city_id,
+  } = req.body;
+
   if (!req.body.email) {
-    return res.status(400).json({ msg: "Falta el mail wachin" });
+    return res
+      .status(400)
+      .json({ msg: "Error: Please provide all required fields" });
   }
 
   const newUser = {
-    ...req.body,
     id: uniqueID(req.body.email),
+    name,
+    surname,
+    email,
+    password,
+    avatar,
+    birthdate,
+    pronouns,
+    nationality,
+    residence,
+    phone,
+    description,
+    actualJob,
+    active,
+    status,
+    language_id,
+    organization_id,
+    country_id,
+    state_id,
+    city_id,
   };
 
   if (!newUser.name || !newUser.email || !newUser.password) {
-    return res.status(400).json({
-      message: "Please provide all required fields",
-    });
+    return res
+      .status(400)
+      .json({
+        message: "Please provide all required fields",
+      })
+      .end();
   }
 
   if (newUser.phone) {
-    !phoneRegex.test(newUser.phone)
-      ? res.status(400).json({ message: "Please provide a valid phone number" })
-      : null;
+    if (!phoneRegex.test(newUser.phone)) {
+      return res
+        .status(400)
+        .json({
+          message: "Please provide a valid phone number",
+        })
+        .end();
+    }
   }
 
   if (!emailRegex.test(newUser.email) || !avatarRegex.test(newUser.avatar)) {
-    return res.status(400).json({
-      message: "Please provide valid data",
-    });
+    return res
+      .status(400)
+      .json({
+        message: "Please provide valid data",
+      })
+      .end();
   }
 
-  const user = await service.createUser(req.body);
-  res.status(200).json(user);
+  console.log(newUser);
+
+  const user = await service.createUser(newUser);
+
+  if (user) {
+    return res
+      .status(200)
+      .json({ message: "User created successfully!", data: user });
+  } else {
+    return res
+      .status(400)
+      .json({ message: "Error: Creating a User in the database" });
+  }
 };
 
 const updateUser = async (req, res) => {
-  const user = await service.updateUser(req.params.id, req.body);
-  res.status(200).json(user);
+  const {
+    name,
+    surname,
+    email,
+    password,
+    avatar,
+    birthdate,
+    pronouns,
+    nationality,
+    residence,
+    phone,
+    description,
+    actualJob,
+    active,
+    status,
+    language_id,
+    organization_id,
+    country_id,
+    state_id,
+    city_id,
+  } = req.body;
+
+  const newData = {
+    name,
+    surname,
+    email,
+    password,
+    avatar,
+    birthdate,
+    pronouns,
+    nationality,
+    residence,
+    phone,
+    description,
+    actualJob,
+    active,
+    status,
+    language_id,
+    organization_id,
+    country_id,
+    state_id,
+    city_id,
+  };
+
+  const user = await service.updateUser(req.params.id, newData);
+
+  if (user) {
+    return res
+      .status(200)
+      .json({ message: "User edited successfully!", data: user });
+  } else {
+    return res
+      .status(400)
+      .json({ message: "Error: Editing a User in the database" });
+  }
 };
 
 const deactiveUser = async (req, res) => {
   const user = await service.deactiveUser(req.params.id);
-  res.status(200).json(user);
+
+  if (user) {
+    return res
+      .status(200)
+      .json({ message: "User deactivated successfully!", data: user });
+  } else {
+    return res
+      .status(400)
+      .json({ message: "Error: Deactivating a User in the database" });
+  }
 };
 
 const activeUser = async (req, res) => {
   const user = await service.activeUser(req.params.id);
-  res.status(200).json(user);
+
+  if (user) {
+    return res
+      .status(200)
+      .json({ message: "User activated successfully!", data: user });
+  } else {
+    return res
+      .status(400)
+      .json({ message: "Error: Activating a User in the database" });
+  }
 };
 
 export default {

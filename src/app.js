@@ -32,6 +32,7 @@ import cityRoute from "./api/routes/cities.js"; //Ciudades
 import commentRoute from "./api/routes/comments.js"; //Comentarios
 import countryRoute from "./api/routes/countries.js"; //Paises
 import fieldRoute from "./api/routes/fields.js"; //Áreas
+import field_typeRoute from "./api/routes/field_types.js"; //Tipos de áreas
 import hobbyRoute from "./api/routes/hobbies.js"; //Pasatiempos
 import languageRoute from "./api/routes/languages.js"; //Lenguajes
 import organizationRoute from "./api/routes/organizations.js"; //Organizaciones
@@ -44,6 +45,7 @@ app.use("/api/cities", cityRoute); //Ruta Ciudades
 app.use("/api/comments", commentRoute); //Ruta Comentarios
 app.use("/api/countries", countryRoute); //Ruta Paises
 app.use("/api/fields", fieldRoute); //Ruta Areas
+app.use("/api/field_types", field_typeRoute); //Ruta Tipos de Áreas
 app.use("/api/hobbies", hobbyRoute); //Ruta Pasatiempos
 app.use("/api/languages", languageRoute); //Ruta Lenguajes
 app.use("/api/organizations", organizationRoute); //Ruta Organizaciones

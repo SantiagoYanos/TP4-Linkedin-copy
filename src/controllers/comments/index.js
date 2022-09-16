@@ -4,52 +4,92 @@ const getPostComments = async (req, res) => {
   if (req.params.post_id) {
     const comments = service.getPostComments(Number(req.params.post_id));
 
-    res.status(200).json(comments);
+    return res
+      .status(200)
+      .json({ message: "Comments obtained succesfully!", data: comments });
   } else {
-    res.status(400).send("Error: Post Id Format");
+    return res.status(400).send("Error: Post Id Format");
   }
 };
 
 const createComment = async (req, res) => {
+  const { body, post_id, written_by, active } = req.body;
+
   if ((!req.body.post_id, !req.body.body)) {
-    res.status(400).json({ message: "Please provide all required fields" });
+    return res
+      .status(400)
+      .json({ message: "Please provide all required fields" });
   }
 
   const newComment = {
-    ...req.body,
+    body,
+    post_id,
+    written_by,
+    active,
   };
 
   const comment = await service.createComment(newComment);
 
   if (comment) {
-    res.status(200).json(comment);
+    return res
+      .status(200)
+      .json({ message: "Comment created succesfully!", data: comment });
   } else {
-    res.status(400).json({
-      message: "Error: Al crear un Comentario en la base de datos",
+    return res.status(400).json({
+      message: "Error: Creating Comments from the database",
     });
   }
 };
 
 const updateComment = async (req, res) => {
-  const comment = await service.updateComment(req.body.id, req.body);
+  const { body, post_id, written_by, active } = req.body;
+
+  const newData = {
+    body,
+    post_id,
+    written_by,
+    active,
+  };
+
+  const comment = await service.updateComment(req.body.id, req.Data);
 
   if (comment) {
-    res.status(200).json(comment);
+    return res
+      .status(200)
+      .json({ message: "Comment edited successfully!", data: comment });
   } else {
-    res.status(400).json({
-      message: "Error: Al editar un Comentario en la base de datos",
+    return res.status(400).json({
+      message: "Error: Editing Comments from the database",
     });
   }
 };
 
 const deactiveComment = async (req, res) => {
   const comment = await service.deactiveComment(Number(req.params.id));
-  res.status(200).json(comment);
+
+  if (comment) {
+    return res
+      .status(200)
+      .json({ message: "Comment deactivated successfully!", data: comment });
+  } else {
+    return res
+      .status(400)
+      .json({ message: "Error: Deactivating a Comment in the database" });
+  }
 };
 
 const activeComment = async (req, res) => {
   const comment = await service.activeComment(Number(req.params.id));
-  res.status(200).json(comment);
+
+  if (comment) {
+    return res
+      .status(200)
+      .json({ message: "Comment activated successfully!", data: comment });
+  } else {
+    return res
+      .status(400)
+      .json({ message: "Error: Activating a Comment in the database" });
+  }
 };
 
 export default {

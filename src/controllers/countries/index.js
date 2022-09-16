@@ -4,11 +4,13 @@ const getAllCountries = async (req, res) => {
   const countries = await service.getAllCountries();
 
   if (countries) {
-    res.status(200).json(countries);
+    return res
+      .status(200)
+      .json({ message: "Countries obtained successfully!", data: countries });
   } else {
-    res
+    return res
       .status(400)
-      .json({ message: "Error: Al obtener las Countries de la base de datos" });
+      .json({ message: "Error: Obtaining Countries from the database" });
   }
 };
 
@@ -16,46 +18,67 @@ const getOneCountry = async (req, res) => {
   const country = await service.getOneCountry(Number(req.params.id));
 
   if (country) {
-    res.status(200).json(country);
+    return res
+      .status(200)
+      .json({ message: "Country obtained successfully!", data: country });
   } else {
-    res
+    return res
       .status(400)
-      .json({ message: "Error: Al obtener una Country de la base de datos" });
+      .json({ message: "Error: Obtaining a Country from the database" });
   }
 };
 
 const createCountry = async (req, res) => {
-  if (!req.body.name) {
-    res.status(400).json({ message: "Please provide all required fields" });
+  const { name, code } = req.body;
+
+  if (!name) {
+    return res
+      .status(400)
+      .json({ message: "Please provide all required fields" });
   }
 
   const newCountry = {
-    ...req.body,
+    name,
+    code,
   };
 
   const createdCountry = await service.createCountry(newCountry);
 
   if (createdCountry) {
-    res.status(200).json(createdCountry);
+    return res.status(200).json({
+      message: "Country created successfully!!",
+      data: createdCountry,
+    });
   } else {
-    res
+    return res
       .status(400)
-      .json({ message: "Error: Al crear una country en la base de datos" });
+      .json({ message: "Error: Creating a Country in the database" });
   }
 };
 
 const updateCountry = async (req, res) => {
+  const { name, code } = req.body;
+
   if (!req.body.id) {
-    res.status(400).json({ message: "Please provide all required fields" });
+    return res
+      .status(400)
+      .json({ message: "Please provide all required fields" });
   } else {
-    const editedCountry = service.updateCountry(req.body.id, req.body);
+    const newData = {
+      name,
+      code,
+    };
+
+    const editedCountry = service.updateCountry(req.body.id, newData);
 
     if (editedCountry) {
-      res.status(200).json(editedCountry);
+      return res
+        .status(200)
+        .json({ message: "Country edited successfully!", data: editedCountry });
     } else {
-      res
+      return res
         .status(400)
-        .json({ message: "Error: Al editar una country de la base de datos" });
+        .json({ message: "Error: Editing a Country in the database" });
     }
   }
 };

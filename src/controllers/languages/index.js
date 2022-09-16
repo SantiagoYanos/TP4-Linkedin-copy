@@ -4,11 +4,13 @@ const getAllLanguages = async (req, res) => {
   const languages = await service.getAllLanguages();
 
   if (languages) {
-    res.status(200).json(languages);
+    return res
+      .status(200)
+      .json({ message: "Languages obtained successfully!", data: languages });
   } else {
-    res
+    return res
       .status(400)
-      .json({ message: "Error: Al obtener Languages de la base de datos" });
+      .json({ message: "Error: Obtaining Languages from the database" });
   }
 
   return languages;
@@ -18,45 +20,61 @@ const getOneLanguage = async (req, res) => {
   const language = await service.getOneLanguage(Number(req.params.id));
 
   if (language) {
-    res.status(200).json(language);
+    return res
+      .status(200)
+      .json({ message: "Language obtained successfully!", data: language });
   } else {
-    res
+    return res
       .status(400)
-      .json({ message: "Error: Al obtener la Language de la base de datos" });
+      .json({ message: "Error: Obtaining a Language from the database" });
   }
 
   return language;
 };
 
 const createLanguage = async (req, res) => {
-  if (!req.body.name) {
-    res.status(400).json({ message: "Please provide all required languages" });
+  const { name } = req.body;
+
+  if (!name) {
+    return res
+      .status(400)
+      .json({ message: "Please provide all required languages" });
   } else {
     const newLanguage = {
-      ...req.body,
+      name,
     };
 
     const language = await service.createLanguage(newLanguage);
 
     if (language) {
-      res.status(200).json(language);
+      return res
+        .status(200)
+        .json({ message: "Lenguage created successfully!", data: language });
     } else {
-      res
+      return res
         .status(400)
-        .json({ message: "Error: Al crear una Language en la base de datos" });
+        .json({ message: "Error: Creating a Lenguage in the database" });
     }
   }
 };
 
 const updateLanguage = async (req, res) => {
-  const language = await service.updateLanguage(req.body.id, req.body);
+  const { name } = req.body;
+
+  const newData = {
+    name,
+  };
+
+  const language = await service.updateLanguage(req.body.id, newData);
 
   if (language) {
-    res.status(200).json(language);
+    return res
+      .status(200)
+      .json({ message: "Language edited successfully!", data: language });
   } else {
-    res
+    return res
       .status(400)
-      .json({ message: "Error: Al editar una Language en la base de datos" });
+      .json({ message: "Error: Editing a language in the database" });
   }
 };
 

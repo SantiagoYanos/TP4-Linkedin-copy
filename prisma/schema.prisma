@@ -19,14 +19,14 @@ model city {
 }
 
 model comment {
-  id         Int      @id @default(autoincrement())
-  body       String?  @db.VarChar(45)
-  createdAt  String?  @db.VarChar(45)
+  id         Int       @id @default(autoincrement())
+  body       String?   @db.VarChar(45)
+  createdAt  DateTime? @default(now()) @db.Timestamp(0)
   post_id    Int
-  written_by String   @db.VarChar(45)
-  post       post     @relation(fields: [post_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "comment_ibfk_1")
-  user       user     @relation(fields: [written_by], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "comment_ibfk_2")
-  active     Boolean? @default(true) @db.Boolean
+  written_by String    @db.VarChar(45)
+  post       post      @relation(fields: [post_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "comment_ibfk_1")
+  user       user      @relation(fields: [written_by], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "comment_ibfk_2")
+  active     Boolean?  @default(true) @db.Boolean
 
   @@index([post_id], map: "post_id_idx")
   @@index([written_by], map: "written_by_idx")
@@ -41,11 +41,16 @@ model country {
 }
 
 model field {
+  id      Int     @id @default(autoincrement())
+  name    String? @db.VarChar(45)
+  type_id Int?
+  skill   skill[]
+}
+
+model field_type {
   id           Int            @id @default(autoincrement())
-  name         String?        @db.VarChar(45)
-  type         String?        @db.VarChar(45)
+  name         String         @unique @db.VarChar(45)
   organization organization[]
-  skill        skill[]
 }
 
 model hobby {
@@ -70,20 +75,20 @@ model lenguage_x_user {
 }
 
 model organization {
-  id                                      Int      @id @default(autoincrement())
-  name                                    String?  @db.VarChar(45)
-  website                                 String?  @db.VarChar(45)
-  type                                    Type?    @default(private)
-  dateOfFounding                          String?  @db.VarChar(45)
-  createdAt                               String?  @db.VarChar(45)
-  field_id                                Int
-  founder_id                              String   @db.VarChar(45)
-  field                                   field    @relation(fields: [field_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "organization_ibfk_1")
-  user_organization_founder_idTouser      user     @relation("organization_founder_idTouser", fields: [founder_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "organization_ibfk_2")
-  user_organizationTouser_organization_id user[]   @relation("organizationTouser_organization_id")
-  active                                  Boolean? @default(true) @db.Boolean
+  id                                      Int        @id @default(autoincrement())
+  name                                    String?    @db.VarChar(45)
+  website                                 String?    @db.VarChar(45)
+  type                                    Type?      @default(private)
+  dateOfFounding                          String?    @db.VarChar(45)
+  createdAt                               DateTime?  @default(now()) @db.Timestamp(0)
+  field_type_id                           Int
+  founder_id                              String     @db.VarChar(45)
+  field_type                              field_type @relation(fields: [field_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_organization_field_type_idx")
+  user_organization_founder_idTouser      user       @relation("organization_founder_idTouser", fields: [founder_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "organization_ibfk_2")
+  user_organizationTouser_organization_id user[]     @relation("organizationTouser_organization_id")
+  active                                  Boolean?   @default(true) @db.Boolean
 
-  @@index([field_id], map: "fk_organization_field1_idx")
+  @@index([field_type_id], map: "fk_organization_field_type1_idx")
   @@index([founder_id], map: "founder_idx")
 }
 
@@ -96,8 +101,8 @@ model post {
   id         Int       @id @default(autoincrement())
   body       String?   @db.VarChar(1024)
   multimedia String?   @db.VarChar(500)
-  createdAt  DateTime? @db.Timestamp(0)
-  updatedAt  String?   @db.VarChar(45)
+  createdAt  DateTime? @default(now()) @db.Timestamp(0)
+  updatedAt  DateTime? @default(now()) @db.Timestamp(0)
   author_id  String    @db.VarChar(45)
   user       user      @relation(fields: [author_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "post_ibfk_1")
   comment    comment[]

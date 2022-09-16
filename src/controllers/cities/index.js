@@ -4,11 +4,13 @@ const getAllCities = async (req, res) => {
   const cities = await service.getAllCities();
 
   if (cities) {
-    res.status(200).json(cities);
+    return res
+      .status(200)
+      .json({ message: "Cities obtained successfully!", data: cities });
   } else {
-    res
+    return res
       .status(400)
-      .json({ message: "Error: Al obtener las Cities de la base de datos" });
+      .json({ message: "Error: Obtaining Cities from the database" });
   }
 };
 
@@ -16,46 +18,64 @@ const getOneCity = async (req, res) => {
   const city = await service.getOneCity(Number(req.params.id));
 
   if (city) {
-    res.status(200).json(city);
+    return res
+      .status(200)
+      .json({ message: "City obtained successfully!", data: city });
   } else {
-    res
+    return res
       .status(400)
-      .json({ message: "Error: Al obtener una City de la base de datos" });
+      .json({ message: "Error: Obtaining a City from the database" });
   }
 };
 
 const createCity = async (req, res) => {
   if (!req.body.state_id || !req.body.name) {
-    res.status(400).json({ message: "Please provide all required fields" });
+    return res
+      .status(400)
+      .json({ message: "Please provide all required fields" });
   }
 
   const newCity = {
-    ...req.body,
+    name: req.body.name,
+    code: req.body.code,
+    state_id: req.body.state_id,
   };
 
   const createdCity = await service.createCity(newCity);
 
   if (createdCity) {
-    res.status(200).json(createdCity);
+    return res
+      .status(200)
+      .json({ message: "City created successfully!", data: createdCity });
   } else {
-    res
+    return res
       .status(400)
-      .json({ message: "Error: Al crear una city en la base de datos" });
+      .json({ message: "Error: Creating a City in the database" });
   }
 };
 
 const updateCity = async (req, res) => {
   if (!req.body.id) {
-    res.status(400).json({ message: "Please provide all required fields" });
+    return res
+      .status(400)
+      .json({ message: "Please provide all required fields" });
   } else {
-    const editedCity = service.updateCity(req.body.id, req.body);
+    const newData = {
+      name: req.body.name,
+      code: req.body.code,
+      state_id: req.body.state_id,
+    };
+
+    const editedCity = service.updateCity(req.body.id, newData);
 
     if (editedCity) {
-      res.status(200).json(editedCity);
+      return res
+        .status(200)
+        .json({ message: "City edited successfully", data: editedCity });
     } else {
-      res
+      return res
         .status(400)
-        .json({ message: "Error: Al editar una city de la base de datos" });
+        .json({ message: "Error: Editing Cities in the database" });
     }
   }
 };

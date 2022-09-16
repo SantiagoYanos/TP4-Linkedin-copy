@@ -4,11 +4,13 @@ const getAllStates = async (req, res) => {
   const states = await service.getAllStates();
 
   if (states) {
-    res.status(200).json(states);
+    return res
+      .status(200)
+      .json({ message: "States obtained successfully!", data: states });
   } else {
-    res
+    return res
       .status(400)
-      .json({ message: "Error: Al obtener los States de la base de datos" });
+      .json({ message: "Error: Obtaining States from the database" });
   }
 };
 
@@ -16,47 +18,68 @@ const getOneState = async (req, res) => {
   const state = await service.getOneState(Number(req.params.id));
 
   if (state) {
-    res.status(200).json(state);
+    return res
+      .status(200)
+      .json({ message: "State obtained successfully!", data: state });
   } else {
-    res
+    return res
       .status(400)
-      .json({ message: "Error: Al obtener un State de la base de datos" });
+      .json({ message: "Error: Obtaining a State from the database" });
   }
 };
 
 const createState = async (req, res) => {
-  if (!req.body.country_id || !req.body.name) {
-    res.status(400).json({ message: "Please provide all required fields" });
+  const { name, code, country_id } = req.body;
+
+  if (!country_id || !name) {
+    return res
+      .status(400)
+      .json({ message: "Please provide all required fields" });
   }
 
   const newState = {
-    ...req.body,
-    country_id: Number(req.body.country_id),
+    name,
+    code,
+    country_id: Number(country_id),
   };
 
   const createdState = await service.createState(newState);
 
   if (createdState) {
-    res.status(200).json(createdState);
+    return res
+      .status(200)
+      .json({ message: "State created successfully!", data: createdState });
   } else {
-    res
+    return res
       .status(400)
-      .json({ message: "Error: Al crear una state en la base de datos" });
+      .json({ message: "Error: Creating a State in the database" });
   }
 };
 
 const updateState = async (req, res) => {
+  const { name, code, country_id } = req.body;
+
   if (!req.body.id) {
-    res.status(400).json({ message: "Please provide all required fields" });
+    return res
+      .status(400)
+      .json({ message: "Please provide all required fields" });
   } else {
-    const editedState = service.updateState(req.body.id, req.body);
+    const newData = {
+      name,
+      code,
+      country_id: Number(country_id),
+    };
+
+    const editedState = service.updateState(req.body.id, newData);
 
     if (editedState) {
-      res.status(200).json(editedState);
+      return res
+        .status(200)
+        .json({ message: "State edited successfully!", data: editedState });
     } else {
-      res
+      return res
         .status(400)
-        .json({ message: "Error: Al editar una state de la base de datos" });
+        .json({ message: "Error: Editing a State in the database" });
     }
   }
 };
