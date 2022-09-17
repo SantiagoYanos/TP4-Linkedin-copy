@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 
 async function getAllPosts() {
   try {
-    const posts = await prisma.post.findmany();
+    const posts = await prisma.post.findMany();
     return posts;
   } catch (err) {
     console.log(err);
