@@ -20,10 +20,10 @@ model city {
 
 model comment {
   id         Int       @id @default(autoincrement())
-  body       String?   @db.VarChar(45)
+  body       String?   @db.VarChar(256)
   createdAt  DateTime? @default(now()) @db.Timestamp(0)
   post_id    Int
-  written_by String    @db.VarChar(45)
+  written_by String    @db.VarChar(256)
   post       post      @relation(fields: [post_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "comment_ibfk_1")
   user       user      @relation(fields: [written_by], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "comment_ibfk_2")
   active     Boolean?  @default(true) @db.Boolean
