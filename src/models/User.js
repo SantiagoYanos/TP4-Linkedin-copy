@@ -25,7 +25,6 @@ async function getOneUser(name) {
 
 async function createUser(data) {
   try {
-    return user;
     const createdUser = await prisma.user.create({
       data: data,
     });
