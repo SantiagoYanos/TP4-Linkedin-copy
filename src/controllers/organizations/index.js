@@ -33,7 +33,15 @@ const getOneOrganization = async (req, res) => {
 };
 
 const createOrganization = async (req, res) => {
-  const { name, field_type_id, founder_id } = req.body;
+  const {
+    name,
+    website,
+    type,
+    dateOfFounding,
+    active,
+    field_type_id,
+    founder_id,
+  } = req.body;
 
   if ((!name || !field_type_id, !founder_id)) {
     //Chequeo de si tiene lo obligatorio para poder crearse
@@ -44,6 +52,10 @@ const createOrganization = async (req, res) => {
 
   const newOrganization = {
     name,
+    website,
+    type,
+    dateOfFounding,
+    active,
     field_type_id,
     founder_id,
   };
@@ -73,10 +85,22 @@ const createOrganization = async (req, res) => {
 };
 
 const updateOrganization = async (req, res) => {
-  const { name, field_type_id, founder_id } = req.body;
+  const {
+    name,
+    website,
+    type,
+    dateOfFounding,
+    active,
+    field_type_id,
+    founder_id,
+  } = req.body;
 
   const newData = {
     name,
+    website,
+    type,
+    dateOfFounding,
+    active,
     field_type_id,
     founder_id,
   };
@@ -116,12 +140,10 @@ const activeOrganization = async (req, res) => {
   const organization = await service.activeOrganization(Number(req.params.id));
 
   if (organization) {
-    return res
-      .status(200)
-      .json({
-        message: "Organization activated successfully!",
-        data: organization,
-      });
+    return res.status(200).json({
+      message: "Organization activated successfully!",
+      data: organization,
+    });
   } else {
     return res
       .status(400)

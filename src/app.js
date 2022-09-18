@@ -5,6 +5,8 @@ import passport from "passport";
 import morgan from "morgan";
 import cors from "cors";
 
+import local_auth from "./auth/strategy.js";
+
 const app = express();
 
 // Inicializaciones
@@ -41,6 +43,9 @@ import skillRoute from "./api/routes/skills.js"; //Habilidades
 import stateRoute from "./api/routes/states.js"; //Estados/Provincias
 import userRoute from "./api/routes/users.js"; //Usuarios
 
+import indexRoute from "./v1/routes/index.routes.js";
+import authRoute from "./v1/routes/auth.routes.js";
+
 app.use("/api/cities", cityRoute); //Ruta Ciudades
 app.use("/api/comments", commentRoute); //Ruta Comentarios
 app.use("/api/countries", countryRoute); //Ruta Paises
@@ -54,10 +59,9 @@ app.use("/api/skills", skillRoute); //Ruta Habilidades
 app.use("/api/states", stateRoute); //Ruta Estados/Provincias
 app.use("/api/users", userRoute); //Ruta Usuarios
 
-//------------------------------------------------------------
+app.use("/", indexRoute);
+app.use("/auth", authRoute);
 
-app.get("/", (req, res) => {
-  res.send("Index");
-});
+//------------------------------------------------------------
 
 export default app;

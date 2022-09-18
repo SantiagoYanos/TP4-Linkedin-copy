@@ -36,7 +36,7 @@ async function createUser(data) {
 
 async function updateUser(id, data) {
   try {
-    const updatedUser = await prisma.user.updateOne({
+    const updatedUser = await prisma.user.update({
       where: {
         id: id,
       },
@@ -50,7 +50,7 @@ async function updateUser(id, data) {
 
 async function activeUser(id) {
   try {
-    const activeUser = await prisma.user.updateOne({
+    const activeUser = await prisma.user.update({
       where: {
         id: id,
       },
@@ -66,7 +66,7 @@ async function activeUser(id) {
 
 async function deactiveUser(id) {
   try {
-    const deactiveUser = await prisma.user.updateOne({
+    const deactiveUser = await prisma.user.update({
       where: {
         id: id,
       },

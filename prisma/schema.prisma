@@ -136,20 +136,20 @@ model state {
 }
 
 model user {
-  id                                              String         @id @db.VarChar(50)
-  name                                            String         @db.VarChar(45)
-  surname                                         String?        @db.VarChar(45)
-  email                                           String?        @db.VarChar(255)
-  password                                        String         @db.VarChar(32)
+  id                                              String         @id @db.VarChar(255)
+  name                                            String         @db.VarChar(255)
+  surname                                         String?        @db.VarChar(255)
+  email                                           String         @unique @db.VarChar(255)
+  password                                        String         @db.VarChar(255)
   createdAt                                       DateTime?      @default(now()) @db.Timestamp(0)
   avatar                                          String?        @db.VarChar(2048)
   birthdate                                       String?        @db.VarChar(45)
   pronouns                                        String?        @db.VarChar(45)
-  nationality                                     String?        @db.VarChar(45)
-  residence                                       String?        @db.VarChar(45)
+  nationality                                     String?        @db.VarChar(255)
+  residence                                       String?        @db.VarChar(255)
   phone                                           String?        @db.VarChar(45)
   description                                     String?        @db.VarChar(1024)
-  actualJob                                       String?        @db.VarChar(45)
+  actualJob                                       String?        @db.VarChar(255)
   active                                          Boolean?       @db.Boolean
   status                                          String?        @db.VarChar(45)
   language_id                                     Int

@@ -47,7 +47,7 @@ const createPost = async (req, res) => {
   if (createdPost) {
     return res
       .status(200)
-      .json({ message: "Post created successfully!", data: createPost });
+      .json({ message: "Post created successfully!", data: createdPost });
   } else {
     return res
       .status(400)
