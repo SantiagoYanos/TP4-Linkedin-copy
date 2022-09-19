@@ -6,6 +6,7 @@ import morgan from "morgan";
 import cors from "cors";
 
 import local_auth from "./auth/strategy.js";
+import google_auth from "./auth/oauth-strategy.js";
 
 const app = express();
 

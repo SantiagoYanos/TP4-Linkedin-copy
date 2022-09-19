@@ -140,7 +140,7 @@ model user {
   name                                            String         @db.VarChar(255)
   surname                                         String?        @db.VarChar(255)
   email                                           String         @unique @db.VarChar(255)
-  password                                        String         @db.VarChar(255)
+  password                                        String?        @db.VarChar(255)
   createdAt                                       DateTime?      @default(now()) @db.Timestamp(0)
   avatar                                          String?        @db.VarChar(2048)
   birthdate                                       String?        @db.VarChar(45)
@@ -150,22 +150,23 @@ model user {
   phone                                           String?        @db.VarChar(45)
   description                                     String?        @db.VarChar(1024)
   actualJob                                       String?        @db.VarChar(255)
-  active                                          Boolean?       @db.Boolean
+  active                                          Boolean?       @default(true) @db.Boolean
   status                                          String?        @db.VarChar(45)
-  language_id                                     Int
+  language_id                                     Int?
   organization_id                                 Int?
-  country_id                                      Int
-  state_id                                        Int
-  city_id                                         Int
-  language                                        language       @relation(fields: [language_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_ibfk_1")
+  country_id                                      Int?
+  state_id                                        Int?
+  city_id                                         Int?
+  language                                        language?      @relation(fields: [language_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_ibfk_1")
   organization_organizationTouser_organization_id organization?  @relation("organizationTouser_organization_id", fields: [organization_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_ibfk_2")
-  country                                         country        @relation(fields: [country_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_ibfk_3")
-  state                                           state          @relation(fields: [state_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_ibfk_4")
-  city                                            city           @relation(fields: [city_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_ibfk_5")
+  country                                         country?       @relation(fields: [country_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_ibfk_3")
+  state                                           state?         @relation(fields: [state_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_ibfk_4")
+  city                                            city?          @relation(fields: [city_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_ibfk_5")
   comment                                         comment[]
   hobby                                           hobby[]
   organization_organization_founder_idTouser      organization[] @relation("organization_founder_idTouser")
   post                                            post[]
+  googleId                                        String?        @unique
 
   @@index([city_id], map: "cty_id_idx")
   @@index([country_id], map: "fk_user_country1_idx")
