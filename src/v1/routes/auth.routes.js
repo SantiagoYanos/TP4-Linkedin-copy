@@ -11,6 +11,9 @@ router
   //Visual Login
 
   .get("/login", (req, res) => {
+    if (req.user) {
+      res.redirect("../profile");
+    }
     res.send("Login");
   })
 
@@ -29,6 +32,9 @@ router
   //Visual Register
 
   .get("/register", (req, res) => {
+    if (req.user) {
+      res.redirect("../profile");
+    }
     res.send("Register");
   })
 

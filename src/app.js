@@ -4,6 +4,7 @@ import session from "express-session";
 import passport from "passport";
 import morgan from "morgan";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 import local_auth from "./auth/strategy.js";
 import google_auth from "./auth/oauth-strategy.js";
@@ -16,6 +17,7 @@ app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 
 app.use(
   session({

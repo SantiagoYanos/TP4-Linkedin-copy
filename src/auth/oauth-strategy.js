@@ -32,7 +32,7 @@ passport.use(
       callbackURL: "/auth/google/callback",
       state: true,
     },
-    async function (accessToken, refreshToken, profile, done) {
+    async function (accessToken, refreshToken, profile, cb) {
       try {
         //console.log(profile);
 
@@ -42,7 +42,9 @@ passport.use(
           },
         });
 
-        if (user) return done(null, user);
+        if (user) return cb(null, user);
+
+        console.log("Usuario encontrado");
 
         const newUser = {
           id: uniqueID(profile.emails[0].value),
@@ -57,10 +59,10 @@ passport.use(
 
         console.log(userCreated);
 
-        done(null, userCreated);
+        return cb(null, userCreated);
       } catch (err) {
         console.log(err);
-        done(null, err);
+        cb(err);
       }
     }
   )
