@@ -29,10 +29,10 @@ connectRedis(); //Se conecta al redis
 
 router
   .get("/", (req, res) => {
-    res.send("Bienvenido a TinderJob");
+    res.render("index");
   })
   .get("/profile", isLoggedIn, (req, res) => {
-    console.log(req.user);
+    //console.log(req.user);
 
     res.send("Este es tu perfil");
   })

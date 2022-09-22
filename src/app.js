@@ -9,7 +9,11 @@ import cookieParser from "cookie-parser";
 import local_auth from "./auth/strategy.js";
 import google_auth from "./auth/oauth-strategy.js";
 
+import * as url from "url";
+
 const app = express();
+
+const __dirname = url.fileURLToPath(new URL(".", import.meta.url)); //Nos da acceso a la ruta en la que estamos parados.
 
 // Inicializaciones
 dotenv.config();
@@ -28,6 +32,11 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(express.static(__dirname + "/public"));
+
+app.set("view engine", "ejs");
+app.set("views", __dirname + "/views");
 
 //------------------------------------------------------------
 

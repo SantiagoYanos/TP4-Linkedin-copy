@@ -1,0 +1,50 @@
+html {
+    height: 100%
+}
+
+body {
+    background-color: #002652;
+    min-height: 100vh;
+    height: 100%; 
+}
+
+.barriers {
+background-color: aliceblue;
+width: 100%;
+}
+
+.icons {
+
+    color: white;
+    font-size: 12vw;
+    margin: 10px;
+
+}
+
+.principal-container {
+
+    height: 100%;
+    width: 100%;
+
+}
+
+h1 {
+
+    color: #F5F5F5;
+    font-size: 8vw;
+    border: black;
+    text-shadow: 8px 8px #011536;
+
+}
+
+p {
+    color: #A4ACFA;
+    font-size: 2vw;
+}
+
+button {
+
+    width: 150px;
+    border: 5px #011536;
+
+}

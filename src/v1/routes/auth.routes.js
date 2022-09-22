@@ -1,8 +1,6 @@
 import { Router } from "express";
 import passport from "passport";
 
-import userController from "../../controllers/users/index.js";
-
 const router = Router();
 
 //----------------------------- Login Local
@@ -11,10 +9,10 @@ router
   //Visual Login
 
   .get("/login", (req, res) => {
-    if (req.user) {
+    if (req.user || req.cookies.token) {
       res.redirect("../profile");
     }
-    res.send("Login");
+    res.render("login");
   })
 
   //Envío Login
@@ -32,7 +30,7 @@ router
   //Visual Register
 
   .get("/register", (req, res) => {
-    if (req.user) {
+    if (req.user || req.cookies.token) {
       res.redirect("../profile");
     }
     res.send("Register");

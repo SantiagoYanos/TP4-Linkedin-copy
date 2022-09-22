@@ -62,6 +62,8 @@ passport.use(
         else {
           //Si no encontró a ninguno...
 
+          //console.log("usuario no encontrado");
+
           const {
             name,
             surname,

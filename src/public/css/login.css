@@ -1,0 +1,23 @@
+body {
+    background-color: #002652;
+}
+
+.login-container {
+
+    background-color: #F5F5F5;
+    width: 300px;
+    height: 400px;
+    border-radius: 0.5cm;
+
+}
+
+.login-sign {
+
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.register-message {
+
+    font-size: small;
+
+}
