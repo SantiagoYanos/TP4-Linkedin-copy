@@ -33,7 +33,7 @@ router
     if (req.user || req.cookies.token) {
       res.redirect("../profile");
     }
-    res.send("Register");
+    res.render("register");
   })
 
   //Envío Register
@@ -41,7 +41,7 @@ router
   .post("/register", (req, res) => {
     const handler = passport.authenticate("local-register", {
       successRedirect: "../profile",
-      failureRedirect: "/register",
+      failureRedirect: "./register",
       passReqToCallback: true,
     });
 

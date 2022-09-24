@@ -31,10 +31,11 @@ router
   .get("/", (req, res) => {
     res.render("index");
   })
-  .get("/profile", isLoggedIn, (req, res) => {
-    //console.log(req.user);
-
-    res.send("Este es tu perfil");
+  .get("/profile/:email", isLoggedIn, (req, res) => {
+    res.render("profile", { userEmail: req.params.email });
+  })
+  .get("/profile/", isLoggedIn, (req, res) => {
+    res.render("profile", { userEmail: req.user.email });
   })
   .get("/timeline", isLoggedIn, (req, res) => {
     res.send("Acá se ven los posts");
@@ -48,23 +49,38 @@ export default router;
 async function isLoggedIn(req, res, next) {
   if (req.cookies.token) {
     //Lo busca en redis
-    const user = await client.get(req.cookies.token);
 
-    if (user) {
+    let user = null;
+
+    try {
+      user = await client.get(req.cookies.token);
+
+      //console.log(typeof user);
+      //console.log(user);
+    } catch (err) {
+      user = null;
+    }
+
+    if (user != null) {
       //Si lo encuentra lo actualiza
-      await client.set(req.cookies.token, JSON.stringify(user), {
+      await client.set(req.cookies.token, user, {
         //Se actualiza el token
         EX: 300,
       });
 
+      user = Buffer.from(user, "base64").toString("utf8");
+
       req.user = JSON.parse(user);
+
+      // console.log(req.user);
+
       return next();
     } else {
       res.clearCookie("token");
     }
   }
 
-  console.log("Se ejecuta");
+  //console.log("Se ejecuta");
 
   if (req.isAuthenticated()) {
     //Crear token
@@ -73,7 +89,17 @@ async function isLoggedIn(req, res, next) {
 
     res.cookie("token", newToken, { expire: new Date() + 300000 }); //Crea una cookie con el token
 
-    await client.set(newToken, JSON.stringify(req.user), {
+    //console.log(req.user);
+
+    const userText = JSON.stringify(req.user);
+
+    //console.log(userText);
+
+    const encoded = Buffer.from(userText, "utf8").toString("base64");
+
+    //console.log(encoded);
+
+    await client.set(newToken, encoded, {
       EX: 300,
     });
 

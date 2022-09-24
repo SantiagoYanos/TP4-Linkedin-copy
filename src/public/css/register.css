@@ -1,0 +1,17 @@
+body {
+    background-color: #002652;
+}
+
+.register-container {
+
+    background-color: #F5F5F5;
+    width: 600px;
+    height: 650px;
+    border-radius: 0.5cm;
+
+}
+
+.register-sign {
+
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
