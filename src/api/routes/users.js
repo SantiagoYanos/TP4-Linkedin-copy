@@ -6,7 +6,7 @@ router
   .get("/", controller.getAllUsers)
   .get("/:name", controller.getOneUser)
   .post("/", controller.createUser)
-  .put("/:id", controller.updateUser)
+  .put("/", controller.updateUser)
   .put("/:id/active", controller.activeUser)
   .put("/:id/deactive", controller.deactiveUser);
 

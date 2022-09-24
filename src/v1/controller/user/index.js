@@ -1,34 +1,7 @@
-import service from "../../services/users/index.js";
-import { avatarRegex, emailRegex, phoneRegex } from "../../utils/regex.js";
-import { uniqueID } from "../../utils/uniqueID.js";
-
-const getAllUsers = async (req, res) => {
-  const users = await service.getAllUsers();
-
-  if (users) {
-    return res
-      .status(200)
-      .json({ message: "Users obtained successfully!", data: users });
-  } else {
-    return res
-      .status(400)
-      .json({ message: "Error: Obtaining Users from the database" });
-  }
-};
-
-const getOneUser = async (req, res) => {
-  const user = await service.getOneUser(req.params.name);
-
-  if (user) {
-    return res
-      .status(200)
-      .json({ message: "User obtained successfully!", data: user });
-  } else {
-    return res
-      .status(400)
-      .json({ message: "Error: Obtaining a User from the database" });
-  }
-};
+import serviceUser from "../../../services/users/index.js";
+import servicePost from "../../../services/posts/index.js";
+import { avatarRegex, emailRegex, phoneRegex } from "../../../utils/regex.js";
+import { uniqueID } from "../../../utils/uniqueID.js";
 
 const createUser = async (req, res) => {
   const {
@@ -113,12 +86,10 @@ const createUser = async (req, res) => {
 
   console.log(newUser);
 
-  const user = await service.createUser(newUser);
+  const user = await serviceUser.createUser(newUser);
 
   if (user) {
-    return res
-      .status(200)
-      .json({ message: "User created successfully!", data: user });
+    return;
   } else {
     return res
       .status(400)
@@ -173,12 +144,10 @@ const updateUser = async (req, res) => {
     city_id,
   };
 
-  const user = await service.updateUser(id, newData);
+  const user = await serviceUser.updateUser(id, newData);
 
   if (user) {
-    return res
-      .status(200)
-      .json({ message: "User edited successfully!", data: user });
+    return;
   } else {
     return res
       .status(400)
@@ -187,12 +156,10 @@ const updateUser = async (req, res) => {
 };
 
 const deactiveUser = async (req, res) => {
-  const user = await service.deactiveUser(req.params.id);
+  const user = await serviceUser.deactiveUser(req.params.id);
 
   if (user) {
-    return res
-      .status(200)
-      .json({ message: "User deactivated successfully!", data: user });
+    return next();
   } else {
     return res
       .status(400)
@@ -201,12 +168,10 @@ const deactiveUser = async (req, res) => {
 };
 
 const activeUser = async (req, res) => {
-  const user = await service.activeUser(req.params.id);
+  const user = await serviceUser.activeUser(req.params.id);
 
   if (user) {
-    return res
-      .status(200)
-      .json({ message: "User activated successfully!", data: user });
+    return next();
   } else {
     return res
       .status(400)
@@ -214,11 +179,88 @@ const activeUser = async (req, res) => {
   }
 };
 
+const createPost = async (req, res) => {
+  const { body, multimedia, author_id, active } = req.body;
+
+  if (!author_id || !body) {
+    res.status(400).json({ message: "Please provide all required fields" });
+  }
+
+  const newPost = {
+    body,
+    multimedia,
+    author_id,
+    active,
+  };
+
+  const createdPost = await servicePost.createPost(newPost);
+
+  if (createdPost) {
+    return;
+  } else {
+    return res
+      .status(400)
+      .json({ message: "Error: Creating a Post in the database" });
+  }
+};
+
+const updatePost = async (req, res) => {
+  const { body, multimedia, author_id, active } = req.body;
+
+  const newData = {
+    body,
+    multimedia,
+    author_id,
+    active,
+    updatePost: new Date.now(),
+  };
+
+  const post = await servicePost.updatePost(req.body.id, newData);
+
+  if (post) {
+    return;
+  } else {
+    return res
+      .status(400)
+      .json({ message: "Error: Editing a Post in the database" });
+  }
+};
+
+const deactivePost = async (req, res) => {
+  const post = await servicePost.deactivePost(Number(req.params.id));
+
+  if (post) {
+    return res
+      .status(200)
+      .json({ message: "Post deactivated successfully!", data: post });
+  } else {
+    return res
+      .status(400)
+      .json({ message: "Error: Deactivating a Post in the database" });
+  }
+};
+
+const activePost = async (req, res) => {
+  const post = await servicePost.activePost(Number(req.params.id));
+
+  if (post) {
+    return res
+      .status(200)
+      .json({ message: "Post activated successfully!", data: post });
+  } else {
+    return res
+      .status(400)
+      .json({ message: "Error: Activating a Post in the database" });
+  }
+};
+
 export default {
-  getAllUsers,
-  getOneUser,
   createUser,
   updateUser,
   activeUser,
   deactiveUser,
+  createPost,
+  updatePost,
+  activePost,
+  deactivePost,
 };

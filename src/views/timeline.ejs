@@ -1,6 +1,6 @@
-<%- include('templates/header', {title: "Perfil"}); %>
+<%- include('templates/header', {title: "Timeline"}); %>
 
-<link rel="stylesheet" href="/css/profile.css">
+<link rel="stylesheet" href="/css/timeline.css">
 <script src="https://kit.fontawesome.com/dec9278e05.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -17,89 +17,10 @@
                 <form action="/logout" method="post">
                     <button class="btn btn-light p-2 pt-1 pb-1 log-out-button" type="submit">Log Out</button>
                 </form>
-                
             </ul>
            
             </div>
-
             <div class="col">
-
-            <div class="row principal-panel">
-
-                <div class="col">
-
-                </div>
-
-                <div class="col">
-
-                    <img class="rounded-circle img-fluid avatar-image border border-primary border-3 mt-4" src="https://discountdoorhardware.ca/wp-content/uploads/2018/06/profile-placeholder-3.jpg">
-
-                    <div id="main-info" class="mt-2 mb-4">
-
-                        <p class="text-light h3">Mr. Apellido, Nombre</p>
-                    <p class="subtitle h4">Full Stack Developer</p>
-                    <p class="status h5">(Finding a new job)</p>
-
-                    </div>
-
-                        <a href="/edit-profile"><button class="btn btn-primary" type="submit">Edit Profile</button></a>
-
-                </div> 
-
-                <div class="col">
-
-                </div>
-            </div>
-
-            <div class="row">
-
-                <button class="h4 pt-2 pb-2 mb-0 container-fluid" data-bs-toggle="collapse" data-bs-target="#description">Description</button>
-
-                <div id="description" class="collapse">
-                
-                <p class="h6 mt-3 mb-3">
-                    Esta es una gran descripción.
-                </p>
-
-                </div>
-
-                <button class="h4 pt-2 pb-2 mb-0 container-fluid" data-bs-toggle="collapse" data-bs-target="#information">Information</button>
-
-                <div id="information" class="collapse">
-                
-                <ul class="information-list h5 mt-3 mb-3">
-                    <li>Birth Date: </li>
-                    <li>Language: </li>
-                    <li>Nationality: </li>
-                    <li>Country, state: </li>
-                    <br>
-                    <li>Organization: </li>
-                    <li>Job: </li>
-                    
-                </ul>
-
-                </div>
-
-                
-                <button class="h4 pt-2 pb-2 mb-0 container-fluid" data-bs-toggle="collapse" data-bs-target="#contact">Contact</button>
-
-                <div id="contact" class="collapse">
-                
-                <ul class="contact-list h5 mt-3 mb-3">
-                    <li><i class="fa fa-envelope contact-icons"></i> Email:</li>
-                    <li><i class="fa fa-phone contact-icons"></i> Phone: </li>
-                    <li><i class="fa fa-globe contact-icons"></i> Residence: </li>
-                </ul>
-
-                </div>
-
-                <div class="border pt-3 pb-3 posts-title h3 border-top-4 border-dark">
-                    <span class="text-left">Posts</span>
-                    
-                
-                        <a href="/new-post"><button class="btn btn-primary float-end" type="submite">New Post +</button></a>
-
-                </div>
 
                 <div class="post-item">
 
@@ -204,8 +125,6 @@
                    
 
                 </div>
-
-            </div>
 
             </div>
           

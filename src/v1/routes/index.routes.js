@@ -6,6 +6,8 @@ import { createClient } from "redis";
 
 import { v1 } from "uuid";
 
+import userController from "../controller/user/index.js";
+
 const router = Router();
 
 const client = createClient({
@@ -29,19 +31,52 @@ connectRedis(); //Se conecta al redis
 
 router
   .get("/", (req, res) => {
-    res.render("index");
+    return res.render("index");
   })
   .get("/profile/:email", isLoggedIn, (req, res) => {
-    res.render("profile", { userEmail: req.params.email });
+    return res.render("profile", { userEmail: req.params.email });
   })
   .get("/profile/", isLoggedIn, (req, res) => {
-    res.render("profile", { userEmail: req.user.email });
+    return res.render("profile", { userEmail: req.user.email });
   })
   .get("/timeline", isLoggedIn, (req, res) => {
-    res.send("Acá se ven los posts");
+    return res.render("timeline", {});
   })
-  .get("/settings", isLoggedIn, (req, res) => {
-    req.send("Acá se van a poder agregar datos");
+  .post("/logout", isLoggedIn, (req, res) => {
+    req.logOut(function (err) {
+      if (err) {
+        console.log(err);
+        return next(err);
+      }
+
+      res.clearCookie("token");
+      console.log("Se desconectó la cuenta");
+
+      return res.redirect("/auth/login");
+    });
+  })
+
+  .get("/edit-profile", isLoggedIn, (req, res) => {
+    return res.render("edit-profile", { user: req.user });
+  })
+
+  .post("/edit-profile", isLoggedIn, (req, res) => {
+    req.body.id = req.user.id;
+
+    userController.updateUser(req);
+
+    return res.status(200).redirect("/profile");
+  })
+
+  .get("/new-post", isLoggedIn, (req, res) => {
+    res.render("new-post", {});
+  })
+
+  .post("/new-post", isLoggedIn, (req, res) => {
+    req.body.author_id = req.user.id;
+    userController.createPost(req, res);
+
+    return res.status(200).redirect("/profile");
   });
 
 export default router;

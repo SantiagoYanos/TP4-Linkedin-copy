@@ -1,0 +1,45 @@
+body {
+    background-color: #002652;
+}
+
+.register-container {
+
+    background-color: #F5F5F5;
+    width: 700px;
+    border-radius: 0.5cm;
+    margin-bottom: 2cm;
+   
+
+}
+
+.register-sign {
+
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.post-item {
+
+    margin-top: 25px;
+    border-top: black thin solid;
+
+}
+
+.post-user {
+
+    text-align: left;
+
+}
+
+.img-user-post{
+
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
+
+.post-photo{
+
+    max-width: 1000px;
+    max-height: 500px;
+
+}
