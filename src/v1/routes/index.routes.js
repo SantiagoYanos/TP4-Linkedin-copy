@@ -22,8 +22,7 @@ const httpsAgent = new https.Agent({
 const router = Router();
 
 const client = createClient({
-  host: process.env.REDIS_HOST,
-  port: process.env.REDIS_PORT,
+  url: process.env.REDIS_URL,
 });
 
 // const client = createClient({
