@@ -3,7 +3,26 @@ const prisma = new PrismaClient();
 
 async function getAllPosts() {
   try {
-    const posts = await prisma.post.findMany();
+    const posts = await prisma.post.findMany({
+      include: {
+        user: true,
+        comment: {
+          include: {
+            user: {
+              select: {
+                name: true,
+                surname: true,
+                email: true,
+                avatar: true,
+              },
+            },
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
     return posts;
   } catch (err) {
     console.log(err);

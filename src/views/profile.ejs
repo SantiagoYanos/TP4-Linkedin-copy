@@ -36,7 +36,7 @@
 
                     <div id="main-info" class="mt-2 mb-4">
 
-                        <p class="text-light h3"><%= user.pronouns %> <%= user.surname%>, <%= user.name%></p>
+                        <p class="text-light h3"><%= user.pronouns %> <% if (user.surname) { %> <%= user.surname%>,  <% } %> <%= user.name%></p>
                     <% if (user.actualJob) { %><p class="subtitle h4"><%= user.actualJob %></p> <% } %>
                     <% if (user.status) { %> <p class="status h5">(<%= user.status %>)</p> <% } %>
 
@@ -96,7 +96,11 @@
                     <span class="text-left">Posts</span>
                     
                 
+                    <% if (user.id === sessionUserID) {%>
+                        
                         <a href="/new-post"><button class="btn btn-primary float-end" type="submite">New Post +</button></a>
+
+                    <% } %>
 
                 </div>
 

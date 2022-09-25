@@ -76,6 +76,9 @@ body {
 .post-user {
 
     text-align: left;
+    color: black;
+    font-style: normal;
+    text-decoration: none;
 
 }
 

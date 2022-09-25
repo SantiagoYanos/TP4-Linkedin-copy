@@ -117,15 +117,29 @@ router
     try {
       userController.createComment(req);
 
-      return res.status(200).redirect("/profile");
+      //console.log(req);
+
+      return res.status(200).redirect(req.get("Referer"));
     } catch (err) {
       console.log(err);
       return res.status(400).json({ message: "Error: Creating a new comment" });
     }
   })
 
-  .get("/timeline", (req, res) => {
-    res.render("timeline");
+  .get("/timeline", isLoggedIn, async (req, res) => {
+    let postsInfo = await fetch(
+      req.protocol + "://" + req.get("host") + "/api/posts/",
+      {
+        agent: httpsAgent,
+      }
+    );
+
+    const posts = await postsInfo.json();
+
+    res.render("timeline", {
+      posts: posts.data,
+      sessionUserEmail: req.user.email,
+    });
   })
 
   .post("/logout", isLoggedIn, (req, res) => {
@@ -205,7 +219,7 @@ async function isLoggedIn(req, res, next) {
 
     return next();
   } else {
-    return res.redirect("./auth/login");
+    return res.redirect("/auth/login");
   }
 }
 

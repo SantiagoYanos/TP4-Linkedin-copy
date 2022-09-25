@@ -22,110 +22,62 @@
             </div>
             <div class="col">
 
-                <div class="post-item">
+                <% for(let i=0; i<posts.length; i++){ %>
 
-                    <div class="post-user h5 mt-3">
-
-                        <img class="rounded-circle img-user-post border" src="https://discountdoorhardware.ca/wp-content/uploads/2018/06/profile-placeholder-3.jpg">
-
-                        <b>Usuario</b>
-
-                    </div>
-
-                    <img class="post-photo mt-3 mb-3" src="https://i.imgur.com/Ed6YnO8.jpeg">
-
-                    <p>Esta es una descripción del post en cuestión.</p>
-
-                    <div class="border border-1 pt-2 pb-2 m-0">
-                        <button class="container-fluid" data-bs-toggle="collapse" data-bs-target="#comments1">Comments</button>
-
-                        <div id="comments1" class="collapse mt-2">
-
-                            <div class="post-comment border">
-
-                                <img class="comment-photo" src="https://discountdoorhardware.ca/wp-content/uploads/2018/06/profile-placeholder-3.jpg">
-
-                                <b class="h6 mr-2">Usuario</b>
-
-                                <label class="text-opacity-75">01:04</label>
-
-                                <p class="comment-content">Este es un comentario muy interesante</p>
-
-                            </div>
-
-                            <div class="post-comment border">
-
-                                <img class="comment-photo" src="https://discountdoorhardware.ca/wp-content/uploads/2018/06/profile-placeholder-3.jpg">
-
-                                <b class="h6 mr-2">Usuario</b>
-
-                                <label class="text-opacity-75">01:04</label>
-
-                                <p class="comment-content">Este es un comentario muy interesante</p>
-
-                            </div>
-
+                    <% if(posts[i].user.email !== sessionUserEmail) { %>
+                    
+                    <div class="post-item">
+    
+                    <a href="/profile/<%= posts[i].user.email%>" style="text-decoration: none">
+                        <div class="post-user h5 mt-3">
+    
+                            <img class="rounded-circle img-user-post border" src="<%=posts[i].user.avatar%>">
+    
+                            <b ><%=posts[i].user.name%> <%=posts[i].user.surname%></b>
+    
                         </div>
-                    </div>
-                   
-
-                </div>
-
-                <div class="post-item">
-
-                    <div class="post-user h5 mt-3">
-
-                        <img class="rounded-circle img-user-post border" src="https://discountdoorhardware.ca/wp-content/uploads/2018/06/profile-placeholder-3.jpg">
-
-                        <b>Usuario</b>
-
-                    </div>
-
-                    <img class="post-photo mt-3 mb-3" src="https://i.imgur.com/Ed6YnO8.jpeg">
-
-                    <p>Esta es una descripción del post en cuestión.</p>
-
-                    <div class="border border-1 pt-2 pb-2 m-0">
-                        <button class="container-fluid" data-bs-toggle="collapse" data-bs-target="#comments2">Comments</button>
-
-                        <div id="comments2" class="collapse mt-2">
-
-                            <form action="">
-                                <textarea rows="3" id="new-comment" class="container-fluid mb-1 mt-3" name="new-comment" placeholder="Add a new comment..."></textarea>
-
-                                <button class="btn btn-primary mb-1" type="submit">Comment</button>
-                            </form>
-
-                            <div class="post-comment border">
-
-                                <img class="comment-photo" src="https://discountdoorhardware.ca/wp-content/uploads/2018/06/profile-placeholder-3.jpg">
-
-                                <b class="h6 mr-2">Usuario</b>
-
-                                <label class="text-opacity-75">01:04</label>
-
-                                <p class="comment-content">Este es un comentario muy interesante</p>
-
+                    </a>
+    
+                        <img class="post-photo mt-3 mb-3" src="<%= posts[i].multimedia %>">
+    
+                        <p><%=posts[i].body%></p>
+    
+                        <div class="border border-1 pt-2 pb-2 m-0">
+                            <button class="container-fluid" data-bs-toggle="collapse" data-bs-target="#comments<%= i %>">Comments</button>
+    
+                            <div id="comments<%= i %>" class="collapse mt-2">
+    
+                                <form action="/new-comment/<%= posts[i].id %>" method="post">
+                                    <textarea rows="3" class="container-fluid mb-1 mt-2" name="body" placeholder="Add a new comment..."></textarea>
+    
+                                    <button class="btn btn-primary mb-1" type="submit">Comment</button>
+                                </form>
+    
+                                <% posts[i].comment.forEach(function(comment){ %>
+    
+                                <div class="post-comment border">
+    
+                                    <img class="comment-photo" src="<%= comment.user.avatar %>">
+    
+                                    <a class="h6 mr-2" href="/profile/<%=comment.user.email%>"><%= comment.user.name %> <%= comment.user.surname%></a>
+    
+                                   <!-- <label class="text-opacity-75"><%= comment.createdAt %></label> -->
+    
+                                    <p class="comment-content"><%= comment.body %></p>
+    
+                                </div>
+    
+                                <% }); %>
+    
                             </div>
-
-                            <div class="post-comment border">
-
-                                <img class="comment-photo" src="https://discountdoorhardware.ca/wp-content/uploads/2018/06/profile-placeholder-3.jpg">
-
-                                <b class="h6 mr-2">Usuario</b>
-
-                                <label class="text-opacity-75">01:04</label>
-
-                                <p class="comment-content">Este es un comentario muy interesante</p>
-
-                            </div>
-
                         </div>
+    
                     </div>
+
+                    <% } %>
+    
+                    <% }; %>
                    
-
-                </div>
-
             </div>
           
             <div class="col-sm-2 options-panel" name="fill">
