@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { token } from "morgan";
 import passport from "passport";
+import dotenv from "dotenv";
 
 import fetch from "node-fetch";
 
@@ -12,6 +13,8 @@ import userController from "../controller/user/index.js";
 
 import https from "https";
 
+dotenv.config();
+
 const httpsAgent = new https.Agent({
   rejectUnauthorized: false,
 });
@@ -19,8 +22,8 @@ const httpsAgent = new https.Agent({
 const router = Router();
 
 const client = createClient({
-  host: "oregon-redis.render.com",
-  port: 6379,
+  host: process.env.REDIS_HOST,
+  port: process.env.REDIS_PORT,
 });
 
 // const client = createClient({
