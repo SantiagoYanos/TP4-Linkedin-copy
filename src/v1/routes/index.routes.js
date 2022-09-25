@@ -60,9 +60,9 @@ router
 
     const posts = await postsInfo.json();
 
-    console.log(user);
+    //console.log(user);
 
-    console.log(posts);
+    //console.log(posts);
 
     return res.render("profile", {
       user: user.data,
@@ -119,27 +119,27 @@ router
 
     const user = await userInfo.json();
 
-    console.log(user.data);
+    //console.log(user.data);
 
     const languages = await languagesInfo.json();
 
-    console.log(languages.data);
+    //console.log(languages.data);
 
     const organizations = await organizationsInfo.json();
 
-    console.log(organizations.data);
+    //console.log(organizations.data);
 
     const countries = await countriesInfo.json();
 
-    console.log(countries.data);
+    //console.log(countries.data);
 
     const states = await statesInfo.json();
 
-    console.log(states.data);
+    //console.log(states.data);
 
     const cities = await citiesInfo.json();
 
-    console.log(cities.data);
+    //console.log(cities.data);
 
     return res.render("edit-profile", {
       user: user.data,
