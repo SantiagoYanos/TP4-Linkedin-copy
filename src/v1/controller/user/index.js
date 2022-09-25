@@ -1,5 +1,6 @@
 import serviceUser from "../../../services/users/index.js";
 import servicePost from "../../../services/posts/index.js";
+import serviceComment from "../../../services/comments/index.js";
 import { avatarRegex, emailRegex, phoneRegex } from "../../../utils/regex.js";
 import { uniqueID } from "../../../utils/uniqueID.js";
 
@@ -254,6 +255,33 @@ const activePost = async (req, res) => {
   }
 };
 
+const createComment = async (req, res) => {
+  const { body, post_id, written_by, active } = req.body;
+
+  if ((!req.body.post_id, !req.body.body)) {
+    return res
+      .status(400)
+      .json({ message: "Please provide all required fields" });
+  }
+
+  const newComment = {
+    body,
+    post_id,
+    written_by,
+    active,
+  };
+
+  const comment = await serviceComment.createComment(newComment);
+
+  if (comment) {
+    return;
+  } else {
+    return res.status(400).json({
+      message: "Error: Creating Comments from the database",
+    });
+  }
+};
+
 export default {
   createUser,
   updateUser,
@@ -263,4 +291,5 @@ export default {
   updatePost,
   activePost,
   deactivePost,
+  createComment,
 };

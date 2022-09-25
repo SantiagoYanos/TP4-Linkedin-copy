@@ -32,17 +32,17 @@
 
                 <div class="col">
 
-                    <img class="rounded-circle img-fluid avatar-image border border-primary border-3 mt-4" src="https://discountdoorhardware.ca/wp-content/uploads/2018/06/profile-placeholder-3.jpg">
+                    <img class="rounded-circle img-fluid avatar-image border border-primary border-3 mt-4" src="<%= user.avatar %>">
 
                     <div id="main-info" class="mt-2 mb-4">
 
-                        <p class="text-light h3">Mr. Apellido, Nombre</p>
-                    <p class="subtitle h4">Full Stack Developer</p>
-                    <p class="status h5">(Finding a new job)</p>
+                        <p class="text-light h3"><%= user.pronouns %> <%= user.surname%>, <%= user.name%></p>
+                    <% if (user.actualJob) { %><p class="subtitle h4"><%= user.actualJob %></p> <% } %>
+                    <% if (user.status) { %> <p class="status h5">(<%= user.status %>)</p> <% } %>
 
                     </div>
 
-                        <a href="/edit-profile"><button class="btn btn-primary" type="submit">Edit Profile</button></a>
+                    <% if (user.id === sessionUserID) {%> <a href="/edit-profile"><button class="btn btn-primary" type="submit">Edit Profile</button></a> <% } %>
 
                 </div> 
 
@@ -58,7 +58,7 @@
                 <div id="description" class="collapse">
                 
                 <p class="h6 mt-3 mb-3">
-                    Esta es una gran descripción.
+                    <%= user.description %>
                 </p>
 
                 </div>
@@ -68,13 +68,12 @@
                 <div id="information" class="collapse">
                 
                 <ul class="information-list h5 mt-3 mb-3">
-                    <li>Birth Date: </li>
-                    <li>Language: </li>
-                    <li>Nationality: </li>
-                    <li>Country, state: </li>
+                <% if (user.birthdate) {%><li>Birth Date: <%= user.birthdate %></li> <% } %>
+                <% if (user.language) {%><li>Language: <%= user.language.name %></li> <% } %>
+                <% if (user.nationality) {%><li>Nationality: <%= user.nationality %></li> <% } %>
+                <% if (user.country && user.state) {%><li>Country, State: <%=user.country.name%>, <%=user.state.name%></li> <% } %>
                     <br>
-                    <li>Organization: </li>
-                    <li>Job: </li>
+                <% if (user.organization) { %><li>Organization: <%=user.organization.name%></li> <% } %>
                     
                 </ul>
 
@@ -86,9 +85,9 @@
                 <div id="contact" class="collapse">
                 
                 <ul class="contact-list h5 mt-3 mb-3">
-                    <li><i class="fa fa-envelope contact-icons"></i> Email:</li>
-                    <li><i class="fa fa-phone contact-icons"></i> Phone: </li>
-                    <li><i class="fa fa-globe contact-icons"></i> Residence: </li>
+                <% if (user.email) { %><li><i class="fa fa-envelope contact-icons"></i> Email: <%= user.email %></li> <% } %>
+                <% if (user.phone) { %><li><i class="fa fa-phone contact-icons"></i> Phone: <%= user.phone %></li> <% } %>
+                <% if (user.residence) { %><li><i class="fa fa-globe contact-icons"></i> Residence: <%= user.residence %></li> <% } %>
                 </ul>
 
                 </div>
@@ -101,109 +100,55 @@
 
                 </div>
 
-                <div class="post-item">
-
-                    <div class="post-user h5 mt-3">
-
-                        <img class="rounded-circle img-user-post border" src="https://discountdoorhardware.ca/wp-content/uploads/2018/06/profile-placeholder-3.jpg">
-
-                        <b>Usuario</b>
-
-                    </div>
-
-                    <img class="post-photo mt-3 mb-3" src="https://i.imgur.com/Ed6YnO8.jpeg">
-
-                    <p>Esta es una descripción del post en cuestión.</p>
-
-                    <div class="border border-1 pt-2 pb-2 m-0">
-                        <button class="container-fluid" data-bs-toggle="collapse" data-bs-target="#comments1">Comments</button>
-
-                        <div id="comments1" class="collapse mt-2">
-
-                            <div class="post-comment border">
-
-                                <img class="comment-photo" src="https://discountdoorhardware.ca/wp-content/uploads/2018/06/profile-placeholder-3.jpg">
-
-                                <b class="h6 mr-2">Usuario</b>
-
-                                <label class="text-opacity-75">01:04</label>
-
-                                <p class="comment-content">Este es un comentario muy interesante</p>
-
-                            </div>
-
-                            <div class="post-comment border">
-
-                                <img class="comment-photo" src="https://discountdoorhardware.ca/wp-content/uploads/2018/06/profile-placeholder-3.jpg">
-
-                                <b class="h6 mr-2">Usuario</b>
-
-                                <label class="text-opacity-75">01:04</label>
-
-                                <p class="comment-content">Este es un comentario muy interesante</p>
-
-                            </div>
-
-                        </div>
-                    </div>
-                   
-
-                </div>
+                <% for(let i=0; i<posts.length; i++){ %>
 
                 <div class="post-item">
 
                     <div class="post-user h5 mt-3">
 
-                        <img class="rounded-circle img-user-post border" src="https://discountdoorhardware.ca/wp-content/uploads/2018/06/profile-placeholder-3.jpg">
+                        <img class="rounded-circle img-user-post border" src="<%=posts[i].user.avatar%>">
 
-                        <b>Usuario</b>
+                        <b><%=posts[i].user.name%> <%=posts[i].user.surname%></b>
 
                     </div>
 
-                    <img class="post-photo mt-3 mb-3" src="https://i.imgur.com/Ed6YnO8.jpeg">
+                    <img class="post-photo mt-3 mb-3" src="<%= posts[i].multimedia %>">
 
-                    <p>Esta es una descripción del post en cuestión.</p>
+                    <p><%=posts[i].body%></p>
 
                     <div class="border border-1 pt-2 pb-2 m-0">
-                        <button class="container-fluid" data-bs-toggle="collapse" data-bs-target="#comments2">Comments</button>
+                        <button class="container-fluid" data-bs-toggle="collapse" data-bs-target="#comments<%= i %>">Comments</button>
 
-                        <div id="comments2" class="collapse mt-2">
+                        <div id="comments<%= i %>" class="collapse mt-2">
 
-                            <form action="">
-                                <textarea rows="3" id="new-comment" class="container-fluid mb-1 mt-3" name="new-comment" placeholder="Add a new comment..."></textarea>
+                            <form action="/new-comment/<%= posts[i].id %>" method="post">
+                                <textarea rows="3" class="container-fluid mb-1 mt-2" name="body" placeholder="Add a new comment..."></textarea>
 
                                 <button class="btn btn-primary mb-1" type="submit">Comment</button>
                             </form>
 
-                            <div class="post-comment border">
-
-                                <img class="comment-photo" src="https://discountdoorhardware.ca/wp-content/uploads/2018/06/profile-placeholder-3.jpg">
-
-                                <b class="h6 mr-2">Usuario</b>
-
-                                <label class="text-opacity-75">01:04</label>
-
-                                <p class="comment-content">Este es un comentario muy interesante</p>
-
-                            </div>
+                            <% posts[i].comment.forEach(function(comment){ %>
 
                             <div class="post-comment border">
 
-                                <img class="comment-photo" src="https://discountdoorhardware.ca/wp-content/uploads/2018/06/profile-placeholder-3.jpg">
+                                <img class="comment-photo" src="<%= comment.user.avatar %>">
 
-                                <b class="h6 mr-2">Usuario</b>
+                                <a class="h6 mr-2" href="/profile/<%=comment.user.email%>"><%= comment.user.name %> <%= comment.user.surname%></a>
 
-                                <label class="text-opacity-75">01:04</label>
+                               <!-- <label class="text-opacity-75"><%= comment.createdAt %></label> -->
 
-                                <p class="comment-content">Este es un comentario muy interesante</p>
+                                <p class="comment-content"><%= comment.body %></p>
 
                             </div>
+
+                            <% }); %>
 
                         </div>
                     </div>
-                   
 
                 </div>
+
+                <% }; %>
 
             </div>
 

@@ -14,17 +14,31 @@ const getAllPosts = async (req, res) => {
   }
 };
 
-const getOnePost = async (req, res) => {
-  const post = await service.getOnePost(Number(req.params.id));
+// const getOnePost = async (req, res) => {
+//   const post = await service.getOnePost(Number(req.params.id));
 
-  if (post) {
+//   if (post) {
+//     return res
+//       .status(200)
+//       .json({ message: "Post obtained successfully!", data: post });
+//   } else {
+//     return res
+//       .status(400)
+//       .json({ message: "Error: Obtaining a Post from the database" });
+//   }
+// };
+
+const getUserPosts = async (req, res) => {
+  const posts = await service.getUserPosts(req.params.userId);
+
+  if (posts) {
     return res
       .status(200)
-      .json({ message: "Post obtained successfully!", data: post });
+      .json({ message: "User's Posts obtained successfully!", data: posts });
   } else {
     return res
       .status(400)
-      .json({ message: "Error: Obtaining a Post from the database" });
+      .json({ message: "Error: Obtaining User's Posts from the database" });
   }
 };
 
@@ -109,7 +123,8 @@ const activePost = async (req, res) => {
 
 export default {
   getAllPosts,
-  getOnePost,
+  // getOnePost,
+  getUserPosts,
   createPost,
   updatePost,
   activePost,

@@ -5,10 +5,16 @@ const getAllPosts = () => {
   return posts;
 };
 
-const getOnePost = (id) => {
-  const post = Post.getOnePost(id);
+// const getOnePost = (id) => {
+//   const post = Post.getOnePost(id);
 
-  return post;
+//   return post;
+// };
+
+const getUserPosts = (userId) => {
+  const posts = Post.getUserPosts(userId);
+
+  return posts;
 };
 
 const createPost = (data) => {
@@ -37,7 +43,8 @@ const deactivePost = (id) => {
 
 export default {
   getAllPosts,
-  getOnePost,
+  //getOnePost,
+  getUserPosts,
   createPost,
   updatePost,
   activePost,

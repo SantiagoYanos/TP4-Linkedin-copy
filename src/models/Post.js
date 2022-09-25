@@ -10,13 +10,48 @@ async function getAllPosts() {
   }
 }
 
-async function getOnePost(id) {
+// async function getOnePost(id) {
+//   try {
+//     const post = await prisma.post.findUnique({
+//       where: {
+//         id: id,
+//       },
+//     });
+//   } catch (err) {
+//     console.log(err);
+//   }
+// }
+
+async function getUserPosts(userId) {
   try {
-    const post = await prisma.post.findUnique({
+    console.log(userId);
+
+    const posts = await prisma.post.findMany({
       where: {
-        id: id,
+        author_id: userId,
+        active: true,
+      },
+      include: {
+        user: true,
+        comment: {
+          include: {
+            user: {
+              select: {
+                name: true,
+                surname: true,
+                email: true,
+                avatar: true,
+              },
+            },
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
       },
     });
+
+    return posts;
   } catch (err) {
     console.log(err);
   }
@@ -75,7 +110,8 @@ async function deactivePost(id) {
 
 export default {
   getAllPosts,
-  getOnePost,
+  //getOnePost,
+  getUserPosts,
   createPost,
   updatePost,
   activePost,

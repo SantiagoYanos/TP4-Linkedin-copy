@@ -17,7 +17,7 @@ const getAllUsers = async (req, res) => {
 };
 
 const getOneUser = async (req, res) => {
-  const user = await service.getOneUser(req.params.name);
+  const user = await service.getOneUser(req.params.email);
 
   if (user) {
     return res

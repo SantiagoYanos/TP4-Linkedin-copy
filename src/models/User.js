@@ -10,11 +10,18 @@ async function getAllUsers() {
   }
 }
 
-async function getOneUser(name) {
+async function getOneUser(email) {
   try {
     const user = await prisma.user.findUnique({
       where: {
-        name: name,
+        email: email,
+      },
+      include: {
+        language: true,
+        organization: true,
+        country: true,
+        state: true,
+        city: true,
       },
     });
     return user;

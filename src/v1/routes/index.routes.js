@@ -2,11 +2,19 @@ import { Router } from "express";
 import { token } from "morgan";
 import passport from "passport";
 
+import fetch from "node-fetch";
+
 import { createClient } from "redis";
 
 import { v1 } from "uuid";
 
 import userController from "../controller/user/index.js";
+
+import https from "https";
+
+const httpsAgent = new https.Agent({
+  rejectUnauthorized: false,
+});
 
 const router = Router();
 
@@ -33,11 +41,65 @@ router
   .get("/", (req, res) => {
     return res.render("index");
   })
-  .get("/profile/:email", isLoggedIn, (req, res) => {
-    return res.render("profile", { userEmail: req.params.email });
+  .get("/profile/:email", isLoggedIn, async (req, res) => {
+    let userInfo = await fetch(
+      req.protocol + "://" + req.get("host") + "/api/users/" + req.params.email,
+      {
+        agent: httpsAgent,
+      }
+    );
+
+    const user = await userInfo.json();
+
+    let postsInfo = await fetch(
+      req.protocol + "://" + req.get("host") + "/api/posts/" + user.data.id,
+      {
+        agent: httpsAgent,
+      }
+    );
+
+    const posts = await postsInfo.json();
+
+    console.log(user);
+
+    console.log(posts);
+
+    return res.render("profile", {
+      user: user.data,
+      sessionUserID: req.user.id,
+      posts: posts.data,
+    });
   })
-  .get("/profile/", isLoggedIn, (req, res) => {
-    return res.render("profile", { userEmail: req.user.email });
+  .get("/profile/", isLoggedIn, async (req, res) => {
+    let userInfo = await fetch(
+      req.protocol + "://" + req.get("host") + "/api/users/" + req.user.email,
+      {
+        agent: httpsAgent,
+      }
+    );
+
+    let postsInfo = await fetch(
+      req.protocol + "://" + req.get("host") + "/api/posts/" + req.user.id,
+      {
+        agent: httpsAgent,
+      }
+    );
+
+    const user = await userInfo.json();
+
+    const posts = await postsInfo.json();
+
+    console.log(user);
+
+    console.log(posts);
+
+    console.log(posts.data[0].comment);
+
+    return res.render("profile", {
+      user: user.data,
+      sessionUserID: req.user.id,
+      posts: posts.data,
+    });
   })
   .get("/timeline", isLoggedIn, (req, res) => {
     return res.render("timeline", {});
@@ -75,6 +137,18 @@ router
   .post("/new-post", isLoggedIn, (req, res) => {
     req.body.author_id = req.user.id;
     userController.createPost(req, res);
+
+    return res.status(200).redirect("/profile");
+  })
+
+  .post("/new-comment/:idPost", isLoggedIn, (req, res) => {
+    req.body.written_by = req.user.id;
+
+    req.body.post_id = Number(req.params.idPost);
+
+    req.body.active = true;
+
+    userController.createComment(req);
 
     return res.status(200).redirect("/profile");
   });

@@ -4,7 +4,8 @@ const router = Router();
 
 router
   .get("/", controller.getAllPosts)
-  .get("/:id", controller.getOnePost)
+  // .get("/:id", controller.getOnePost)
+  .get("/:userId", controller.getUserPosts)
   .post("/", controller.createPost)
   .put("/", controller.updatePost)
   .patch("/", controller.activePost)
