@@ -71,39 +71,63 @@ router
     });
   })
   .get("/profile/", isLoggedIn, async (req, res) => {
-    let userInfo = await fetch(
-      req.protocol + "://" + req.get("host") + "/api/users/" + req.user.email,
-      {
-        agent: httpsAgent,
-      }
-    );
-
-    let postsInfo = await fetch(
-      req.protocol + "://" + req.get("host") + "/api/posts/" + req.user.id,
-      {
-        agent: httpsAgent,
-      }
-    );
-
-    const user = await userInfo.json();
-
-    const posts = await postsInfo.json();
-
-    console.log(user);
-
-    console.log(posts);
-
-    console.log(posts.data[0].comment);
-
-    return res.render("profile", {
-      user: user.data,
-      sessionUserID: req.user.id,
-      posts: posts.data,
-    });
+    return res.redirect("/profile/" + req.user.email);
   })
-  .get("/timeline", isLoggedIn, (req, res) => {
-    return res.render("timeline", {});
+
+  .get("/edit-profile", isLoggedIn, (req, res) => {
+    return res.render("edit-profile", { user: req.user });
   })
+
+  .post("/edit-profile", isLoggedIn, (req, res) => {
+    req.body.id = req.user.id;
+
+    try {
+      userController.updateUser(req);
+
+      return res.status(200).redirect("/profile");
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({ message: "Error: Updating the user" });
+    }
+  })
+
+  .get("/new-post", isLoggedIn, (req, res) => {
+    res.render("new-post", {});
+  })
+
+  .post("/new-post", isLoggedIn, (req, res) => {
+    req.body.author_id = req.user.id;
+
+    try {
+      userController.createPost(req, res);
+      return res.status(200).redirect("/profile");
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json("Error: Creating a new Post");
+    }
+  })
+
+  .post("/new-comment/:idPost", isLoggedIn, (req, res) => {
+    req.body.written_by = req.user.id;
+
+    req.body.post_id = Number(req.params.idPost);
+
+    req.body.active = true;
+
+    try {
+      userController.createComment(req);
+
+      return res.status(200).redirect("/profile");
+    } catch (err) {
+      console.log(err);
+      return res.status(400).json({ message: "Error: Creating a new comment" });
+    }
+  })
+
+  .get("/timeline", (req, res) => {
+    res.render("timeline");
+  })
+
   .post("/logout", isLoggedIn, (req, res) => {
     req.logOut(function (err) {
       if (err) {
@@ -116,41 +140,6 @@ router
 
       return res.redirect("/auth/login");
     });
-  })
-
-  .get("/edit-profile", isLoggedIn, (req, res) => {
-    return res.render("edit-profile", { user: req.user });
-  })
-
-  .post("/edit-profile", isLoggedIn, (req, res) => {
-    req.body.id = req.user.id;
-
-    userController.updateUser(req);
-
-    return res.status(200).redirect("/profile");
-  })
-
-  .get("/new-post", isLoggedIn, (req, res) => {
-    res.render("new-post", {});
-  })
-
-  .post("/new-post", isLoggedIn, (req, res) => {
-    req.body.author_id = req.user.id;
-    userController.createPost(req, res);
-
-    return res.status(200).redirect("/profile");
-  })
-
-  .post("/new-comment/:idPost", isLoggedIn, (req, res) => {
-    req.body.written_by = req.user.id;
-
-    req.body.post_id = Number(req.params.idPost);
-
-    req.body.active = true;
-
-    userController.createComment(req);
-
-    return res.status(200).redirect("/profile");
   });
 
 export default router;

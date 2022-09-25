@@ -100,7 +100,7 @@ enum Type {
 model post {
   id         Int       @id @default(autoincrement())
   body       String?   @db.VarChar(1024)
-  multimedia String?   @db.VarChar(500)
+  multimedia String?   @db.VarChar(10500)
   createdAt  DateTime? @default(now()) @db.Timestamp(0)
   updatedAt  DateTime? @default(now()) @db.Timestamp(0)
   author_id  String    @db.VarChar(45)
