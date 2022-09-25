@@ -3,7 +3,15 @@ const prisma = new PrismaClient();
 
 async function getAllStates() {
   try {
-    const states = await prisma.state.findMany();
+    const states = await prisma.state.findMany({
+      include: {
+        country: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
 
     return states;
   } catch (err) {

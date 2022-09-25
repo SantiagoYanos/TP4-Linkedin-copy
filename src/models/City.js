@@ -3,7 +3,19 @@ const prisma = new PrismaClient();
 
 async function getAllCities() {
   try {
-    const cities = await prisma.city.findMany();
+    const cities = await prisma.city.findMany({
+      include: {
+        state: {
+          include: {
+            country: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+      },
+    });
 
     return cities;
   } catch (err) {

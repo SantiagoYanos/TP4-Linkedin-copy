@@ -10,39 +10,35 @@
     <p class="mt-3 mb-3 h5 register-sign rounded pb-2 pt-2 border border-primary border-2">Edit-Profile</p>
 
     <form action="/edit-profile" method="post">
-        <div class="mb-2">
-            <label for="password" class="form-label">Contraseña:</label>
-            <input type="password" class="form-control" id="password" placeholder="Contraseña" name="password" required>
-        </div>
         <div class="row">
           <div class="col">
             <div class="mb-2 mt-2">
               <label for="pronoun" class="form-label">Pronoun:</label>
-              <input type="text" class="form-control" id="pronoun" placeholder="(Mr., Miss., Dr., etc.)" name="pronouns">
+              <input type="text" class="form-control" id="pronoun" placeholder="(Mr., Miss., Dr., etc.)" name="pronouns" value="<%= user.pronouns%>">
             </div>
           </div>
           <div class="col">
             <div class="mb-2 mt-2">
               <label for="name" class="form-label">Nombre:</label>
-              <input type="name" class="form-control" id="name" placeholder="Nombre" name="name" required>
+              <input type="name" class="form-control" id="name" placeholder="Nombre" name="name" value="<%=user.name%>" required>
             </div>
           </div>
           <div class="col">
             <div class="mb-2 mt-2">
               <label for="surname" class="form-label">Apellido:</label>
-              <input type="surname" class="form-control" id="surname" placeholder="Apellido" name="surname" required>
+              <input type="surname" class="form-control" id="surname" placeholder="Apellido" name="surname" value="<%=user.surname%>" required>
             </div>
           </div>
         </div>
       
         <div class="mb-2">
           <label for="description" class="form-label">Description:</label>
-          <textarea rows="3" id="description" class="container-fluid mb-1 mt-1" name="description" placeholder="Description..."></textarea>
+          <textarea rows="3" id="description" class="container-fluid mb-1 mt-1" name="description" placeholder="Description..."><%=user.description%></textarea>
         </div>
 
-        <label for="state" class="form-label">State:</label>
-        <select class="form-select mb-2" aria-label="State" id="state" name="state">
-        <option selected>Select an state...</option>
+        <label for="state" class="form-label">Status:</label>
+        <select class="form-select mb-2" aria-label="Status" id="status" name="status" value="<%=user.status%>">
+        <option value="" selected>Select an state...</option>
         <option value="Finding a new Job">Finding a new Job</option>
         <option value="Hiring">Hiring</option>
         <option value="Providing services">Providing services</option>
@@ -50,62 +46,72 @@
 
         <div class="mb-2">
           <label for="actual-job" class="form-label">Actual Job:</label>
-          <input type="text" class="form-control" id="actualJob" placeholder="Actual-job" name="actualJob">
+          <input type="text" class="form-control" id="actualJob" placeholder="Actual-job" name="actualJob" value="<%=user.actualJob%>">
         </div>
 
         <div class="mb-2">
             <label for="avatar" class="form-label">Avatar:</label>
-            <input type="avatar" class="form-control" id="avatar" placeholder="Ingrese URL avatar (.jpg , .png)" name="avatar">
+            <input type="avatar" class="form-control" id="avatar" placeholder="Ingrese URL avatar (.jpg , .png)" name="avatar" value="<%=user.avatar%>">
         </div>
 
       <div class="mb-2">
           <label for="birth-date" class="form-label">Birth-date:</label>
-          <input type="date" class="form-control" id="birth-date" name="birth-date">
+          <input type="date" class="form-control" id="birth-date" name="birth-date" value="<%=user.birthdate%>">
       </div>
 
       <div class="mb-2">
         <label for="nationality" class="form-label">Nationality:</label>
-        <input type="text" class="form-control" id="nationality" placeholder="Nationality" name="nationality">
+        <input type="text" class="form-control" id="nationality" placeholder="Nationality" name="nationality" value="<%=user.nationality%>">
       </div>
 
       <div class="mb-2">
         <label for="residence" class="form-label">Residence:</label>
-        <input type="text" class="form-control" id="residence" placeholder="Residence" name="residence">
+        <input type="text" class="form-control" id="residence" placeholder="Residence" name="residence" value="<%=user.residence%>">
       </div>
 
       <div class="mb-2">
         <label for="phone" class="form-label">Phone:</label>
-        <input type="tel" class="form-control" id="phone" placeholder="123-456-7890" name="phone">
+        <input type="tel" class="form-control" id="phone" placeholder="123-456-7890" name="phone" value="<%=user.phone%>">
       </div>
 
       <label for="language" class="form-label">Language:</label>
-      <select class="form-select mb-2" aria-label="Language" id="language" name="language">
-        <option selected>Select an state...</option>
-        <option value="1">Español</option>
+      <select class="form-select mb-2" aria-label="Language" id="language_id" name="language_id" value="<%=user.language_id%>">
+        <option value="" selected>Select a language...</option>
+        <% languages.forEach(function(language){ %>
+        <option value="<%=language.id%>"><%= language.name %></option>
+        <% }) %>
       </select>
 
       <label for="organization" class="form-label">Organization:</label>
-      <select class="form-select mb-2" aria-label="Organization" id="organization" name="organization">
-        <option selected>Select an Organization...</option>
-        <option value="1">UTN MDP</option>
+      <select class="form-select mb-2" aria-label="Organization" id="organization_id" name="organization_id" value="<%=user.organization_id%>">
+        <option value="" selected>Select an Organization...</option>
+        <% organizations.forEach(function(organization){ %>
+        <option value="<%=organization.id%>"><%= organization.name %></option>
+        <% }) %>
       </select>
 
       <label for="country" class="form-label">Country:</label>
-      <select class="form-select mb-2" aria-label="Country" id="country" name="country">
-        <option selected>Select a Country...</option>
-        <option value="1">Argentina</option>
+      <select class="form-select mb-2" aria-label="Country" id="country_id" name="country_id" value="<%=user.country_id%>">
+        <option value="" selected>Select a Country...</option>
+        <% countries.forEach(function(country){ %>
+        <option value="<%= country.id %>"><%= country.name %></option>
+        <% }) %>
       </select>
 
       <label for="state" class="form-label">State:</label>
-      <select class="form-select mb-2" aria-label="State" id="state" name="state">
-        <option selected>Select a State...</option>
-        <option value="1">Buenos Aires</option>
+      <select class="form-select mb-2" aria-label="State" id="state_id" name="state_id" value="<%=user.state_id%>">
+        <option value="" selected>Select a State...</option>
+        <% states.forEach(function(state){ %>
+        <option value="<%= state.id %>"><%= state.name %> (<%= state.country.name%>)</option>
+        <% }) %>
       </select>
 
       <label for="city" class="form-label">City:</label>
-      <select class="form-select" aria-label="City" id="city" name="city">
-        <option selected>Select a City...</option>
-        <option value="1">Mar del Plata</option>
+      <select class="form-select" aria-label="City" id="city_id" name="city_id" value="<%=user.city_id%>">
+        <option value="" selected>Select a City...</option>
+        <% cities.forEach(function(city){ %>
+        <option value="<%= city.id %>"><%=city.name%> (<%=city.state.country.name%>, <%=city.state.name%>)</option>
+        <% }) %>
       </select>
 
       <button type="submit" class="btn btn-primary mt-3 mb-4">Edit Profile</button>

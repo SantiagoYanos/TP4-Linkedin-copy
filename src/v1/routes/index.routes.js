@@ -74,12 +74,107 @@ router
     return res.redirect("/profile/" + req.user.email);
   })
 
-  .get("/edit-profile", isLoggedIn, (req, res) => {
-    return res.render("edit-profile", { user: req.user });
+  .get("/edit-profile", isLoggedIn, async (req, res) => {
+    const userInfo = await fetch(
+      req.protocol + "://" + req.get("host") + "/api/users/" + req.user.email,
+      {
+        agent: httpsAgent,
+      }
+    );
+
+    const languagesInfo = await fetch(
+      req.protocol + "://" + req.get("host") + "/api/languages/",
+      {
+        agent: httpsAgent,
+      }
+    );
+
+    const organizationsInfo = await fetch(
+      req.protocol + "://" + req.get("host") + "/api/organizations/",
+      {
+        agent: httpsAgent,
+      }
+    );
+
+    const countriesInfo = await fetch(
+      req.protocol + "://" + req.get("host") + "/api/countries/",
+      {
+        agent: httpsAgent,
+      }
+    );
+
+    const statesInfo = await fetch(
+      req.protocol + "://" + req.get("host") + "/api/states/",
+      {
+        agent: httpsAgent,
+      }
+    );
+
+    const citiesInfo = await fetch(
+      req.protocol + "://" + req.get("host") + "/api/cities/",
+      {
+        agent: httpsAgent,
+      }
+    );
+
+    const user = await userInfo.json();
+
+    console.log(user.data);
+
+    const languages = await languagesInfo.json();
+
+    console.log(languages.data);
+
+    const organizations = await organizationsInfo.json();
+
+    console.log(organizations.data);
+
+    const countries = await countriesInfo.json();
+
+    console.log(countries.data);
+
+    const states = await statesInfo.json();
+
+    console.log(states.data);
+
+    const cities = await citiesInfo.json();
+
+    console.log(cities.data);
+
+    return res.render("edit-profile", {
+      user: user.data,
+      languages: languages.data,
+      organizations: organizations.data,
+      countries: countries.data,
+      states: states.data,
+      cities: cities.data,
+    });
   })
 
   .post("/edit-profile", isLoggedIn, (req, res) => {
     req.body.id = req.user.id;
+
+    req.body.status === "" ? (req.body.status = undefined) : null;
+
+    req.body.language_id === ""
+      ? (req.body.language_id = undefined)
+      : (req.body.language_id = parseInt(req.body.language_id));
+
+    req.body.organization_id === ""
+      ? (req.body.organization_id = undefined)
+      : (req.body.organization_id = parseInt(req.body.organization_id));
+
+    req.body.country_id === ""
+      ? (req.body.country_id = undefined)
+      : (req.body.country_id = parseInt(req.body.country_id));
+
+    req.body.state_id === ""
+      ? (req.body.state_id = undefined)
+      : (req.body.state_id = parseInt(req.body.state_id));
+
+    req.body.city_id === ""
+      ? (req.body.city_id = undefined)
+      : (req.body.city_id = parseInt(req.body.city_id));
 
     try {
       userController.updateUser(req);
