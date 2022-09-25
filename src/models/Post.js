@@ -43,7 +43,7 @@ async function getAllPosts() {
 
 async function getUserPosts(userId) {
   try {
-    console.log(userId);
+    // console.log(userId);
 
     const posts = await prisma.post.findMany({
       where: {
