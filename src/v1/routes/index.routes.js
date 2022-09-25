@@ -19,9 +19,14 @@ const httpsAgent = new https.Agent({
 const router = Router();
 
 const client = createClient({
-  host: "127.0.0.1",
+  host: "oregon-redis.render.com",
   port: 6379,
 });
+
+// const client = createClient({
+//   host: "127.0.0.1",
+//   port: 6379,
+// });
 
 async function connectRedis() {
   try {
