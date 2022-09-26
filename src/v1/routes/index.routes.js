@@ -229,19 +229,24 @@ router
   })
 
   .get("/timeline", isLoggedIn, async (req, res) => {
-    let postsInfo = await fetch(
-      req.protocol + "://" + req.get("host") + "/api/posts/",
-      {
-        agent: httpsAgent,
-      }
-    );
+    try {
+      let postsInfo = await fetch(
+        req.protocol + "://" + req.get("host") + "/api/posts/",
+        {
+          agent: httpsAgent,
+        }
+      );
 
-    const posts = await postsInfo.json();
+      const posts = await postsInfo.json();
 
-    res.render("timeline", {
-      posts: posts.data,
-      sessionUserEmail: req.user.email,
-    });
+      res.render("timeline", {
+        posts: posts.data,
+        sessionUserEmail: req.user.email,
+      });
+    } catch (err) {
+      console.log(err);
+      res.redirect("/profile");
+    }
   })
 
   .post("/logout", isLoggedIn, (req, res) => {

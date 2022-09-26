@@ -18,13 +18,17 @@ router
   //Envío Login
 
   .post("/login", async (req, res) => {
-    const handler = passport.authenticate("local-login", {
-      successRedirect: "../profile",
-      failureRedirect: "./login",
-      passReqToCallback: true,
-    });
+    try {
+      const handler = passport.authenticate("local-login", {
+        successRedirect: "../profile",
+        failureRedirect: "./login",
+        passReqToCallback: true,
+      });
 
-    handler(req, res);
+      handler(req, res);
+    } catch (err) {
+      console.log(err);
+    }
   })
 
   //Visual Register
