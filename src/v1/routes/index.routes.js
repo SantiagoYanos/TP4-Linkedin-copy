@@ -23,6 +23,7 @@ const router = Router();
 
 const client = createClient({
   url: process.env.REDIS_URL,
+  password: process.env.REDIS_PASSWORD,
 });
 
 // const client = createClient({
@@ -42,7 +43,11 @@ async function connectRedis() {
   }
 }
 
-connectRedis(); //Se conecta al redis
+try {
+  connectRedis(); //Se conecta al redis
+} catch (err) {
+  console.log(err);
+}
 
 router
   .get("/", (req, res) => {
