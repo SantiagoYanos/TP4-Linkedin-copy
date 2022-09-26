@@ -280,67 +280,70 @@ router
 export default router;
 
 async function isLoggedIn(req, res, next) {
-  if (req.cookies.token) {
-    //Lo busca en redis
+  try {
+    if (req.cookies.token) {
+      //Lo busca en redis
 
-    let user = null;
+      let user = null;
 
-    try {
       user = await client.get(req.cookies.token);
 
       //console.log(typeof user);
       //console.log(user);
-    } catch (err) {
+
       user = null;
+
+      if (user != null) {
+        //Si lo encuentra lo actualiza
+        await client.set(req.cookies.token, user, {
+          //Se actualiza el token
+          EX: 300,
+        });
+
+        user = Buffer.from(user, "base64").toString("utf8");
+
+        req.user = JSON.parse(user);
+
+        // console.log(req.user);
+
+        return next();
+      } else {
+        res.clearCookie("token");
+      }
     }
 
-    if (user != null) {
-      //Si lo encuentra lo actualiza
-      await client.set(req.cookies.token, user, {
-        //Se actualiza el token
+    //console.log("Se ejecuta");
+
+    if (req.isAuthenticated()) {
+      //Crear token
+
+      const newToken = v1(); //Crea un nuevo token
+
+      res.cookie("token", newToken, { expire: new Date() + 300000 }); //Crea una cookie con el token
+
+      //console.log(req.user);
+
+      const userText = JSON.stringify(req.user);
+
+      //console.log(userText);
+
+      const encoded = Buffer.from(userText, "utf8").toString("base64");
+
+      //console.log(encoded);
+
+      await client.set(newToken, encoded, {
         EX: 300,
       });
 
-      user = Buffer.from(user, "base64").toString("utf8");
-
-      req.user = JSON.parse(user);
-
-      // console.log(req.user);
+      //-----------
 
       return next();
     } else {
-      res.clearCookie("token");
+      return res.redirect("/auth/login");
     }
-  }
-
-  //console.log("Se ejecuta");
-
-  if (req.isAuthenticated()) {
-    //Crear token
-
-    const newToken = v1(); //Crea un nuevo token
-
-    res.cookie("token", newToken, { expire: new Date() + 300000 }); //Crea una cookie con el token
-
-    //console.log(req.user);
-
-    const userText = JSON.stringify(req.user);
-
-    //console.log(userText);
-
-    const encoded = Buffer.from(userText, "utf8").toString("base64");
-
-    //console.log(encoded);
-
-    await client.set(newToken, encoded, {
-      EX: 300,
-    });
-
-    //-----------
-
-    return next();
-  } else {
-    return res.redirect("/auth/login");
+  } catch (err) {
+    console.log(err);
+    res.redirect("/");
   }
 }
 
