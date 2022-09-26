@@ -10,9 +10,9 @@ router
 
   .get("/login", (req, res) => {
     if (req.user || req.cookies.token) {
-      res.redirect("../profile");
+      return res.redirect("../profile");
     }
-    res.render("login");
+    return res.render("login");
   })
 
   //Envío Login
@@ -25,7 +25,7 @@ router
         passReqToCallback: true,
       });
 
-      handler(req, res);
+      return handler(req, res);
     } catch (err) {
       console.log(err);
     }
@@ -35,9 +35,9 @@ router
 
   .get("/register", (req, res) => {
     if (req.user || req.cookies.token) {
-      res.redirect("../profile");
+      return res.redirect("../profile");
     }
-    res.render("register");
+    return res.render("register");
   })
 
   //Envío Register
@@ -49,16 +49,10 @@ router
       passReqToCallback: true,
     });
 
-    handler(req, res);
+    return handler(req, res);
   });
 
 //----------------------------- Login Google
-
-router.get("/googleRegister", (req, res) => {
-  res.send(
-    '<form action="/auth/google" method="post"> <label for="POST-name">Nombre:</label> <input id="language_id" type="text" name="language_id"> <input type="submit" value="Save"> </form>'
-  );
-}); //Página donde se van a poner los primeros datos.
 
 router.get(
   "/google",
@@ -74,7 +68,7 @@ router.get(
     failureMessage: true,
   }),
   function (req, res) {
-    res.redirect("/profile");
+    return res.redirect("/profile");
   }
 );
 

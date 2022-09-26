@@ -49,113 +49,127 @@ router
     return res.render("index");
   })
   .get("/profile/:email", isLoggedIn, async (req, res) => {
-    let userInfo = await fetch(
-      req.protocol + "://" + req.get("host") + "/api/users/" + req.params.email,
-      {
-        agent: httpsAgent,
-      }
-    );
+    try {
+      let userInfo = await fetch(
+        req.protocol +
+          "://" +
+          req.get("host") +
+          "/api/users/" +
+          req.params.email,
+        {
+          agent: httpsAgent,
+        }
+      );
 
-    const user = await userInfo.json();
+      const user = await userInfo.json();
 
-    let postsInfo = await fetch(
-      req.protocol + "://" + req.get("host") + "/api/posts/" + user.data.id,
-      {
-        agent: httpsAgent,
-      }
-    );
+      let postsInfo = await fetch(
+        req.protocol + "://" + req.get("host") + "/api/posts/" + user.data.id,
+        {
+          agent: httpsAgent,
+        }
+      );
 
-    const posts = await postsInfo.json();
+      const posts = await postsInfo.json();
 
-    //console.log(user);
+      //console.log(user);
 
-    //console.log(posts);
+      //console.log(posts);
 
-    return res.render("profile", {
-      user: user.data,
-      sessionUserID: req.user.id,
-      posts: posts.data,
-    });
+      return res.render("profile", {
+        user: user.data,
+        sessionUserID: req.user.id,
+        posts: posts.data,
+      });
+    } catch (err) {
+      console.log(err);
+      return res.redirect("/");
+    }
   })
-  .get("/profile/", isLoggedIn, async (req, res) => {
+  .get("/profile/", isLoggedIn, (req, res) => {
     return res.redirect("/profile/" + req.user.email);
   })
 
   .get("/edit-profile", isLoggedIn, async (req, res) => {
-    const userInfo = await fetch(
-      req.protocol + "://" + req.get("host") + "/api/users/" + req.user.email,
-      {
-        agent: httpsAgent,
-      }
-    );
+    try {
+      const userInfo = await fetch(
+        req.protocol + "://" + req.get("host") + "/api/users/" + req.user.email,
+        {
+          agent: httpsAgent,
+        }
+      );
 
-    const languagesInfo = await fetch(
-      req.protocol + "://" + req.get("host") + "/api/languages/",
-      {
-        agent: httpsAgent,
-      }
-    );
+      const languagesInfo = await fetch(
+        req.protocol + "://" + req.get("host") + "/api/languages/",
+        {
+          agent: httpsAgent,
+        }
+      );
 
-    const organizationsInfo = await fetch(
-      req.protocol + "://" + req.get("host") + "/api/organizations/",
-      {
-        agent: httpsAgent,
-      }
-    );
+      const organizationsInfo = await fetch(
+        req.protocol + "://" + req.get("host") + "/api/organizations/",
+        {
+          agent: httpsAgent,
+        }
+      );
 
-    const countriesInfo = await fetch(
-      req.protocol + "://" + req.get("host") + "/api/countries/",
-      {
-        agent: httpsAgent,
-      }
-    );
+      const countriesInfo = await fetch(
+        req.protocol + "://" + req.get("host") + "/api/countries/",
+        {
+          agent: httpsAgent,
+        }
+      );
 
-    const statesInfo = await fetch(
-      req.protocol + "://" + req.get("host") + "/api/states/",
-      {
-        agent: httpsAgent,
-      }
-    );
+      const statesInfo = await fetch(
+        req.protocol + "://" + req.get("host") + "/api/states/",
+        {
+          agent: httpsAgent,
+        }
+      );
 
-    const citiesInfo = await fetch(
-      req.protocol + "://" + req.get("host") + "/api/cities/",
-      {
-        agent: httpsAgent,
-      }
-    );
+      const citiesInfo = await fetch(
+        req.protocol + "://" + req.get("host") + "/api/cities/",
+        {
+          agent: httpsAgent,
+        }
+      );
 
-    const user = await userInfo.json();
+      const user = await userInfo.json();
 
-    //console.log(user.data);
+      //console.log(user.data);
 
-    const languages = await languagesInfo.json();
+      const languages = await languagesInfo.json();
 
-    //console.log(languages.data);
+      //console.log(languages.data);
 
-    const organizations = await organizationsInfo.json();
+      const organizations = await organizationsInfo.json();
 
-    //console.log(organizations.data);
+      //console.log(organizations.data);
 
-    const countries = await countriesInfo.json();
+      const countries = await countriesInfo.json();
 
-    //console.log(countries.data);
+      //console.log(countries.data);
 
-    const states = await statesInfo.json();
+      const states = await statesInfo.json();
 
-    //console.log(states.data);
+      //console.log(states.data);
 
-    const cities = await citiesInfo.json();
+      const cities = await citiesInfo.json();
 
-    //console.log(cities.data);
+      //console.log(cities.data);
 
-    return res.render("edit-profile", {
-      user: user.data,
-      languages: languages.data,
-      organizations: organizations.data,
-      countries: countries.data,
-      states: states.data,
-      cities: cities.data,
-    });
+      return res.render("edit-profile", {
+        user: user.data,
+        languages: languages.data,
+        organizations: organizations.data,
+        countries: countries.data,
+        states: states.data,
+        cities: cities.data,
+      });
+    } catch (err) {
+      console.log(err);
+      return res.redirect("/");
+    }
   })
 
   .post("/edit-profile", isLoggedIn, (req, res) => {
