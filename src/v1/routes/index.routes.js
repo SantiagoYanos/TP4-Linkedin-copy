@@ -15,10 +15,6 @@ import https from "https";
 
 dotenv.config();
 
-const httpsAgent = new https.Agent({
-  rejectUnauthorized: false,
-});
-
 const router = Router();
 
 const client = createClient({
@@ -60,19 +56,13 @@ router
           "://" +
           req.get("host") +
           "/api/users/" +
-          req.params.email,
-        {
-          agent: httpsAgent,
-        }
+          req.params.email
       );
 
       const user = await userInfo.json();
 
       let postsInfo = await fetch(
-        req.protocol + "://" + req.get("host") + "/api/posts/" + user.data.id,
-        {
-          agent: httpsAgent,
-        }
+        req.protocol + "://" + req.get("host") + "/api/posts/" + user.data.id
       );
 
       const posts = await postsInfo.json();
@@ -98,45 +88,27 @@ router
   .get("/edit-profile", isLoggedIn, async (req, res) => {
     try {
       const userInfo = await fetch(
-        req.protocol + "://" + req.get("host") + "/api/users/" + req.user.email,
-        {
-          agent: httpsAgent,
-        }
+        req.protocol + "://" + req.get("host") + "/api/users/" + req.user.email
       );
 
       const languagesInfo = await fetch(
-        req.protocol + "://" + req.get("host") + "/api/languages/",
-        {
-          agent: httpsAgent,
-        }
+        req.protocol + "://" + req.get("host") + "/api/languages/"
       );
 
       const organizationsInfo = await fetch(
-        req.protocol + "://" + req.get("host") + "/api/organizations/",
-        {
-          agent: httpsAgent,
-        }
+        req.protocol + "://" + req.get("host") + "/api/organizations/"
       );
 
       const countriesInfo = await fetch(
-        req.protocol + "://" + req.get("host") + "/api/countries/",
-        {
-          agent: httpsAgent,
-        }
+        req.protocol + "://" + req.get("host") + "/api/countries/"
       );
 
       const statesInfo = await fetch(
-        req.protocol + "://" + req.get("host") + "/api/states/",
-        {
-          agent: httpsAgent,
-        }
+        req.protocol + "://" + req.get("host") + "/api/states/"
       );
 
       const citiesInfo = await fetch(
-        req.protocol + "://" + req.get("host") + "/api/cities/",
-        {
-          agent: httpsAgent,
-        }
+        req.protocol + "://" + req.get("host") + "/api/cities/"
       );
 
       const user = await userInfo.json();
@@ -250,10 +222,7 @@ router
   .get("/timeline", isLoggedIn, async (req, res) => {
     try {
       let postsInfo = await fetch(
-        req.protocol + "://" + req.get("host") + "/api/posts/",
-        {
-          agent: httpsAgent,
-        }
+        req.protocol + "://" + req.get("host") + "/api/posts/"
       );
 
       const posts = await postsInfo.json();
