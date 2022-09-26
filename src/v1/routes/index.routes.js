@@ -52,17 +52,13 @@ router
   .get("/profile/:email", isLoggedIn, async (req, res) => {
     try {
       let userInfo = await fetch(
-        req.protocol +
-          "://" +
-          req.get("host") +
-          "/api/users/" +
-          req.params.email
+        "https" + "://" + req.get("host") + "/api/users/" + req.params.email
       );
 
       const user = await userInfo.json();
 
       let postsInfo = await fetch(
-        req.protocol + "://" + req.get("host") + "/api/posts/" + user.data.id
+        "https" + "://" + req.get("host") + "/api/posts/" + user.data.id
       );
 
       const posts = await postsInfo.json();
@@ -88,27 +84,27 @@ router
   .get("/edit-profile", isLoggedIn, async (req, res) => {
     try {
       const userInfo = await fetch(
-        req.protocol + "://" + req.get("host") + "/api/users/" + req.user.email
+        "https" + "://" + req.get("host") + "/api/users/" + req.user.email
       );
 
       const languagesInfo = await fetch(
-        req.protocol + "://" + req.get("host") + "/api/languages/"
+        "https" + "://" + req.get("host") + "/api/languages/"
       );
 
       const organizationsInfo = await fetch(
-        req.protocol + "://" + req.get("host") + "/api/organizations/"
+        "https" + "://" + req.get("host") + "/api/organizations/"
       );
 
       const countriesInfo = await fetch(
-        req.protocol + "://" + req.get("host") + "/api/countries/"
+        "https" + "://" + req.get("host") + "/api/countries/"
       );
 
       const statesInfo = await fetch(
-        req.protocol + "://" + req.get("host") + "/api/states/"
+        "https" + "://" + req.get("host") + "/api/states/"
       );
 
       const citiesInfo = await fetch(
-        req.protocol + "://" + req.get("host") + "/api/cities/"
+        "https" + "://" + req.get("host") + "/api/cities/"
       );
 
       const user = await userInfo.json();
@@ -222,7 +218,7 @@ router
   .get("/timeline", isLoggedIn, async (req, res) => {
     try {
       let postsInfo = await fetch(
-        req.protocol + "://" + req.get("host") + "/api/posts/"
+        "https" + "://" + req.get("host") + "/api/posts/"
       );
 
       const posts = await postsInfo.json();
